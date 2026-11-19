@@ -1,6 +1,6 @@
 # Recorded experiments (as of 20 November 2026)
 
-**Do not mix pilot, holdout and public-split scores when ranking models.** The recorded experiments were mostly single-seed runs; E0–E3 and E5 do not constitute a fully controlled ablation.
+**Do not mix pilot, holdout and public-split scores when ranking models.** The recorded experiments were mostly single-seed runs; E0–E3, E5 and E7 do not constitute a fully controlled ablation.
 
 ## Public split — 30,655 rows, 256 tokens, thresholds [0.5, 0.5]
 
@@ -22,7 +22,7 @@ Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3
 | E3 | Weighted BCE [1,10], 2,000 steps | 0.7814 | 0.6080 | 0.6947 | Fixed 0.5 threshold |
 | E5 | Weighted BCE [1,10], 6,000 max steps; best checkpoint 4,000 | 0.8176 | 0.6080 | 0.7128 | Fixed 0.5 threshold |
 | E6 | Post-hoc threshold search on E5 pilot | 0.8200 | 0.6080 | 0.7140 | Thresholds [0.43, 0.99]; exploratory only |
-| E7 | Linear warmup/decay candidate | — | — | — | No reported run/result yet |
+| E7 | Weighted BCE [1,10], 6,000 steps; linear learning-rate decay; best at step 6,000 | 0.8188 | 0.6080 | 0.7134 | Pilot only; public split not yet evaluated |
 
 ### Pilot threshold analyses
 
@@ -42,6 +42,21 @@ Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3
 | **4,000** | **0.8176** | **0.6080** | **0.7128** |
 | 5,000 | 0.8162 | 0.6032 | 0.7097 |
 | 6,000 | 0.8223 | 0.6032 | 0.7127 |
+
+## E7 scheduler run (pilot validation only)
+
+| Step | Learning rate | Weakness F1 | Debt F1 | Mean F1 |
+|---:|---:|---:|---:|---:|
+| 1,000 | 1.85e-5 | 0.6859 | 0.0000 | 0.3430 |
+| 2,000 | 1.48e-5 | 0.7724 | 0.6080 | 0.6902 |
+| 3,000 | 1.11e-5 | 0.8057 | 0.6080 | 0.7068 |
+| 4,000 | 7.41e-6 | 0.8046 | 0.6080 | 0.7063 |
+| 5,000 | 3.70e-6 | 0.8127 | 0.6080 | 0.7104 |
+| **6,000** | **0** | **0.8188** | **0.6080** | **0.7134** |
+
+Elapsed training time: **45.87 minutes**. Pilot mean F1 E7 minus E5: **+0.00061**. Precision and recall at E7 best pilot checkpoint: weakness P=0.86785 / R=0.77494, debt P=1.0 / R=0.43678. An apparent 0.0006-point F1 advantage on the pilot does not establish a meaningful scheduler benefit. The same pilot selected checkpoints for both runs.
+
+**E7 public-split metrics have not been supplied or verified.**
 
 ## E3 internal generalization diagnostics (NOT the public split)
 
