@@ -221,3 +221,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# NLBSE research: local model artifacts and datasets
+*.pt
+*.pth
+*.ckpt
+pytorch_model.bin
+model.safetensors
+model-*.safetensors
+*.pkl
+*.pickle
+*.npz
+/kaggle/
+/data/
+/checkpoints/
+/outputs/
+**/best_model/
+/wandb/
+mlruns/
+.ipynb_checkpoints/
