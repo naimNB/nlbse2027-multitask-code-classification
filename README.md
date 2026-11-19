@@ -1,0 +1,67 @@
+# NLBSE 2027 — Multitask Code Classification
+
+Reproducible experiments investigating CodeBERT fine-tuning for **code weakness/vulnerability** and **self-admitted technical debt (MAT/SATD)** classification, prepared for the NLBSE 2027 Tool Competition.
+
+**Status:** Research in progress. The E7 learning-rate scheduling experiment is not yet reported; the paper is a working draft, **not an accepted publication**.
+
+**Researcher:** Md Naim Babu · [GitHub](https://github.com/naimNB)
+
+## Approach
+
+- Shared encoder: `microsoft/codebert-base`, with two binary output logits.
+- E3/E5: `BCEWithLogitsLoss(pos_weight=[1.0, 10.0])` to investigate rare technical-debt positives.
+- Tokenizer truncation: 256 tokens in the standardized local public-split evaluations.
+- E5: up to 6,000 optimization steps; checkpoint selected by pilot validation mean F1 at step 4,000.
+- E7: proposed controlled linear warmup/decay experiment, **results pending**.
+
+## Results — public evaluation split (30,655 samples)
+
+All rows below were evaluated locally at **fixed thresholds (0.5, 0.5)** with 256-token truncation. These are **not hidden-test or leaderboard scores**.
+
+| Checkpoint | Weakness F1 | Debt F1 | Mean F1 |
+|---|---:|---:|---:|
+| Released NLBSE CodeBERT baseline | **0.8760** | **0.7143** | **0.7952** |
+| E3 — Weighted BCE, 2,000 steps | 0.7834 | 0.6872 | 0.7353 |
+| E5 — Weighted BCE, best step 4,000 | 0.8192 | 0.6933 | 0.7563 |
+
+The released baseline still outperforms E5 by about **0.0389 mean-F1 points** on this local comparison. We do not claim a state-of-the-art result.
+
+See [results/EXPERIMENTS.md](results/EXPERIMENTS.md) for precision/recall, split-specific diagnostics, and limitations.
+
+## Reproduce the evaluation
+
+Source dataset: [NLBSE/nlbse27-code-comment-classification](https://huggingface.co/datasets/NLBSE/nlbse27-code-comment-classification).
+
+Install the Python packages in [requirements.txt](requirements.txt), using a compatible CUDA-enabled PyTorch installation on Kaggle rather than replacing Kaggle's installed PyTorch with a CPU-only wheel.
+
+To evaluate a saved local checkpoint:
+
+```bash
+python scripts/evaluate_public.py --model-dir /path/to/checkpoint --max-length 256
+```
+
+This command evaluates with fixed thresholds of 0.5. Do not tune on the public evaluation split. The script does not compute competition GFLOPs, official ranking, or hidden-test performance.
+
+## Repository layout
+
+- `scripts/evaluate_public.py` — evaluation of either a local checkpoint or a public Hugging Face model.
+- `results/EXPERIMENTS.md` — actual recorded E0–E6 experiment results.
+- `docs/REPRODUCIBILITY.md` — split construction, checkpoints, limitations, pending audits.
+- `paper/draft.md` — preliminary empirical-study write-up.
+- `notebooks/` — upload original clean Kaggle notebooks here when exported; do not fabricate notebook executions.
+
+## Important limitations
+
+1. Pilot/holdout evaluation shares source projects and frequently source-file identities with training; it is **not project-disjoint**.
+2. Pilot-to-holdout exact-code overlap was observed and filtered for the E3 clean diagnostic.
+3. Training budgets, shuffling, and seeds were not fully controlled across all historical runs.
+4. The public split was consulted during research, so it should not be called an untouched independent test.
+5. Model weights (~500 MB each), training datasets, raw predictions and split pickle files are not included in Git. Keep them in Kaggle or an appropriate model artifact store and publish verified links when available.
+
+## References and attribution
+
+- [Official NLBSE 2027 task repository](https://github.com/nlbse2027/code-comment-classification)
+- [Official released CodeBERT checkpoint](https://huggingface.co/NLBSE/nlbse27-code-comment-classification-baseline)
+- [CodeBERT paper](https://arxiv.org/abs/2002.08155)
+
+This is an independent participant project; it is not an official NLBSE organizer repository.
