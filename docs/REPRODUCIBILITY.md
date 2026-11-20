@@ -18,6 +18,7 @@
 - E3: 2,000 steps; E5: 6,000 maximum and checkpoint chosen at 4,000.
 - Reported learning rate: 2e-5; weight decay: 0.01; batch size: 8; maximum length: 256. Verify these with saved run configs.
 - E7: weighted BCE with linear learning-rate warmup/decay; 6,000 steps completed, best checkpoint at step 6,000; pilot mean F1 0.7134. Public-split evaluation pending. Training duration 45.87 minutes. Verify actual warmup settings using the saved run configuration.
+- E8: 10,000 training steps, 1,000 linear warmup steps, peak LR 2e-5, weighted BCE [1,10], best step 10,000 on pilot. E8 local public mean F1 0.7749629467 (vulnerability F1 0.8504309439, debt F1 0.6994949495); 30,655 samples, 486.06-second inference wall time, and fixed [0.5,0.5] thresholds. Kaggle artifact export still pending.
 - Local public-set comparison: 256-token truncation, batch size 16 at inference, sigmoid threshold 0.5 for both tasks.
 - Report binary precision, recall, F1 separately for each label; mean F1 = arithmetic mean of the two task F1 scores.
 - The organizer may require a different inference wrapper and resource scoring. Match the official competition contract before submission.
@@ -36,6 +37,7 @@ Kaggle's GPU PyTorch is typically sufficient; do not overwrite it blindly with a
 
 - [ ] E3 and E5 complete notebook exports, with outputs carefully scrubbed and organized.
 - [ ] E5 best checkpoint, tokenizer and `run_config.json` (host large files outside Git).
+- [ ] Export E8 notebook, pilot/holdout/public metrics JSON, run config and best checkpoint (large model files to external hosting).
 - [ ] Export E7 notebook and actual run outputs (training completed on Kaggle; notebook/checkpoint not yet copied to repository).
 - [ ] Exact dataset revision, dataset split indices or reproducible row IDs, hash/label conflict policy.
 - [ ] Per-model predictions and metrics artifacts, checked against public split.
