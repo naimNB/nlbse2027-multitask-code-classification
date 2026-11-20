@@ -2,7 +2,7 @@
 
 Reproducible experiments investigating CodeBERT fine-tuning for **code weakness/vulnerability** and **self-admitted technical debt (MAT/SATD)** classification, prepared for the NLBSE 2027 Tool Competition.
 
-**Status:** Research in progress. The E7 learning-rate scheduling experiment is not yet reported; the paper is a working draft, **not an accepted publication**.
+**Status:** Research in progress. E8 has completed 10,000 training steps and public-split evaluation; the paper is a working draft, **not an accepted publication**.
 
 **Researcher:** Md Naim Babu · [GitHub](https://github.com/naimNB)
 
@@ -12,7 +12,8 @@ Reproducible experiments investigating CodeBERT fine-tuning for **code weakness/
 - E3/E5: `BCEWithLogitsLoss(pos_weight=[1.0, 10.0])` to investigate rare technical-debt positives.
 - Tokenizer truncation: 256 tokens in the standardized local public-split evaluations.
 - E5: up to 6,000 optimization steps; checkpoint selected by pilot validation mean F1 at step 4,000.
-- E7: proposed controlled linear warmup/decay experiment, **results pending**.
+- E7: 6,000-step weighted BCE with linear scheduling (pilot evaluated).
+- E8: 10,000-step weighted BCE with 1,000-step warmup and linear scheduling, best checkpoint at step 10,000; pilot F1 0.7270.
 
 ## Results — public evaluation split (30,655 samples)
 
@@ -23,8 +24,9 @@ All rows below were evaluated locally at **fixed thresholds (0.5, 0.5)** with 25
 | Released NLBSE CodeBERT baseline | **0.8760** | **0.7143** | **0.7952** |
 | E3 — Weighted BCE, 2,000 steps | 0.7834 | 0.6872 | 0.7353 |
 | E5 — Weighted BCE, best step 4,000 | 0.8192 | 0.6933 | 0.7563 |
+| **E8 — Weighted BCE + scheduler, 10,000 steps** | **0.8504** | **0.6995** | **0.7750** |
 
-The released baseline still outperforms E5 by about **0.0389 mean-F1 points** on this local comparison. We do not claim a state-of-the-art result.
+The released baseline still outperforms E8 by about **0.0202 mean-F1 points** on this local comparison. We do not claim a state-of-the-art result.
 
 See [results/EXPERIMENTS.md](results/EXPERIMENTS.md) for precision/recall, split-specific diagnostics, and limitations.
 
@@ -45,7 +47,7 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 ## Repository layout
 
 - `scripts/evaluate_public.py` — evaluation of either a local checkpoint or a public Hugging Face model.
-- `results/EXPERIMENTS.md` — actual recorded E0–E6 experiment results.
+- `results/EXPERIMENTS.md` — actual recorded E0–E8 experiment results.
 - `docs/REPRODUCIBILITY.md` — split construction, checkpoints, limitations, pending audits.
 - `paper/draft.md` — preliminary empirical-study write-up.
 - `notebooks/` — upload original clean Kaggle notebooks here when exported; do not fabricate notebook executions.
