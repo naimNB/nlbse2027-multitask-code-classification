@@ -23,6 +23,7 @@ Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3
 | E5 | Weighted BCE [1,10], 6,000 max steps; best checkpoint 4,000 | 0.8176 | 0.6080 | 0.7128 | Fixed 0.5 threshold |
 | E6 | Post-hoc threshold search on E5 pilot | 0.8200 | 0.6080 | 0.7140 | Thresholds [0.43, 0.99]; exploratory only |
 | E7 | Weighted BCE [1,10], 6,000 steps; linear learning-rate decay; best at step 6,000 | 0.8188 | 0.6080 | 0.7134 | Pilot only; public split not yet evaluated |
+| **E8** | Weighted BCE [1,10], 10,000 steps; linear schedule, 1,000 warmup steps | **0.8399** | **0.6142** | **0.7270** | Best at 10,000; public split pending |
 
 ### Pilot threshold analyses
 
@@ -57,6 +58,41 @@ Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3
 Elapsed training time: **45.87 minutes**. Pilot mean F1 E7 minus E5: **+0.00061**. Precision and recall at E7 best pilot checkpoint: weakness P=0.86785 / R=0.77494, debt P=1.0 / R=0.43678. An apparent 0.0006-point F1 advantage on the pilot does not establish a meaningful scheduler benefit. The same pilot selected checkpoints for both runs.
 
 **E7 public-split metrics have not been supplied or verified.**
+
+## E8 training and internal evaluation (20 November 2026)
+
+E8 completed 10,000 steps in approximately **86.54 minutes**. The best checkpoint according to pilot mean F1 was saved at **step 10,000**. Reported configuration: weighted BCE `[1, 10]`, 2e-5 peak learning rate, 1,000 warmup steps, linear decay, 256-token truncation, batch size 8. As with earlier experiments, precise hyperparameter/config versioning should be checked against the actual saved `run_config.json`.
+
+### E8 validation checkpoints
+
+| Step | Vulnerability F1 | Debt F1 | Mean F1 |
+|---:|---:|---:|---:|
+| 1,000 | 0.6751 | 0.0000 | 0.3375 |
+| 2,000 | 0.7567 | 0.6032 | 0.6799 |
+| 3,000 | 0.7630 | 0.6080 | 0.6855 |
+| 4,000 | 0.8032 | 0.6080 | 0.7056 |
+| 5,000 | 0.8116 | 0.6032 | 0.7074 |
+| 6,000 | 0.8309 | 0.6154 | 0.7231 |
+| 7,000 | 0.8332 | 0.6080 | 0.7206 |
+| 8,000 | 0.8344 | 0.6000 | 0.7172 |
+| 9,000 | 0.8385 | 0.6142 | 0.7264 |
+| **10,000** | **0.8399** | **0.6142** | **0.7270** |
+
+### E8 clean internal holdout (16,420 samples)
+
+The reported split was `internal_holdout_excluding_exact_pilot_code_hashes`. The evaluation remains **within-project** and includes many previously seen source files. It is not a blind project-disjoint test.
+
+| Task | Precision | Recall | F1 | Confusion matrix [[TN, FP], [FN, TP]] |
+|---|---:|---:|---:|---|
+| Vulnerability | 0.88985 | 0.80170 | **0.84348** | [[10483,536],[1071,4330]] |
+| Technical Debt | 0.98710 | 0.53873 | **0.69704** | [[16134,2],[131,153]] |
+| **Mean** | — | — | **0.77026** | — |
+
+The recorded E3 clean-holdout mean F1 was 0.7360. E8's 0.77026 is **0.0343 higher on nominally comparable internal holdout conditions**; exact dataset revision and row membership must still be audited.
+
+**E8 performance on the 30,655-row official public split has not yet been measured/reported.** Do not compare this internal holdout score directly against public-split baseline 0.7952.
+
+Artifacts remain in Kaggle, including `E8_results_metadata.zip`, best checkpoint and resume state; the repository does not yet host those files.
 
 ## E3 internal generalization diagnostics (NOT the public split)
 
