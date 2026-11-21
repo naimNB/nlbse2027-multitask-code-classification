@@ -15,7 +15,7 @@ Detecting both potential weaknesses and self-admitted maintenance debt from sour
 
 ## 2. Experimental methodology
 
-We use `microsoft/codebert-base` with two binary output logits, corresponding to weakness detection and MAT/SATD. Weighted configurations apply `BCEWithLogitsLoss` with positive weights [1,10]. The recorded E3 run used 2,000 optimizer steps. E5 allowed up to 6,000 steps, with a checkpoint selected at step 4,000 based on mean F1 over 5,000 internal pilot examples. E8 used the same positive-class weighting with 1,000-step warmup and linear decay across 10,000 steps; the pilot-selected checkpoint was at step 10,000. E9-Fresh ran up to 15,000 steps with 1,500-step warmup and linear decay; the pilot-selected checkpoint was at 13,000 steps. These experiments are not a fully controlled causal ablation. Our local public-split evaluation uses a fixed 0.5 decision threshold for each task and truncates to at most 256 tokens. Exact historical split indices and dependency revisions remain to be exported from Kaggle.
+We use `microsoft/codebert-base` with two binary output logits, corresponding to weakness detection and MAT/SATD. Weighted configurations apply `BCEWithLogitsLoss` with positive weights [1,10]. The recorded E3 run used 2,000 optimizer steps. E5 allowed up to 6,000 steps, with a checkpoint selected at step 4,000 based on mean F1 over 5,000 internal pilot examples. E8 used the same positive-class weighting with 1,000-step warmup and linear decay across 10,000 steps; the pilot-selected checkpoint was at step 10,000. E9-Fresh ran up to 15,000 steps with 1,500-step warmup and linear decay; the pilot-selected checkpoint was at 13,000 steps. These experiments are not a fully controlled causal ablation. Our local public-split evaluation uses a fixed 0.5 decision threshold for each task and truncates to at most 256 tokens. The E9 run configuration records dataset-split fingerprints and dependency versions; however, its upstream dataset revision and complete train/validation row identifiers were not pinned.
 
 ## 3. Results
 
@@ -31,9 +31,11 @@ All values are from the **same local evaluation procedure** on the 30,655-exampl
 
 An E3 internal duplicate-filtered holdout yielded weakness F1 0.7794, debt F1 0.6925 and mean F1 0.7360. In a small unseen-file subset (854 rows, only 18 debt positives), debt F1 fell to 0.2857. This is a diagnostic rather than a conclusive generalization result.
 
+Figure 1 (pilot F1 progression): [SVG figure](../figures/e9_pilot_f1.svg). Figure 2 (E9 public-split confusion matrices): [SVG figure](../figures/e9_public_confusion_matrices.svg). These are descriptive figures; they do not represent hidden-test results.
+
 ## 4. Discussion and threats to validity
 
-The experiments use small training budgets relative to the source dataset, largely single-run results, and pilot-based checkpoint selection. Differences in initialization and example ordering limit causal interpretation of cross-run comparisons. Exact code hashes do not overlap between training and validation in the reported audit, but the internal splits share all 15 projects and many source-file identities. The public split was inspected during model development, and so must not be described as untouched final evaluation. The low prevalence and limited positive counts complicate confidence in subset estimates. Official hidden-test evaluation and computational-efficiency scoring remain unreported.
+The E9 experiment uses 120,000 distinct training examples sampled in one fixed randomized pass from 193,072 internal training rows, with a pilot-selected checkpoint. The experiments use partial training budgets, largely single-run results, and pilot-based checkpoint selection. Differences in initialization and example ordering limit causal interpretation of cross-run comparisons. Exact code hashes do not overlap between training and validation in the reported audit, but the internal splits share all 15 projects and many source-file identities. The public split was inspected during model development, and so must not be described as untouched final evaluation. The low prevalence and limited positive counts complicate confidence in subset estimates. Official hidden-test evaluation and computational-efficiency scoring remain unreported.
 
 ## 5. Conclusion
 
