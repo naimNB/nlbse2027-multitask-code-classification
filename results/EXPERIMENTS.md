@@ -1,6 +1,6 @@
-# Recorded experiments (as of 20 November 2026)
+# Recorded experiments (as of 21 November 2026)
 
-**Do not mix pilot, holdout and public-split scores when ranking models.** The recorded experiments were mostly single-seed runs; E0–E3, E5, E7 and E8 do not constitute a fully controlled ablation.
+**Do not mix pilot, holdout and public-split scores when ranking models.** The recorded experiments were mostly single-seed runs; E0–E3, E5, E7, E8 and E9 do not constitute a fully controlled ablation.
 
 ## Public split — 30,655 rows, 256 tokens, thresholds [0.5, 0.5]
 
@@ -9,7 +9,8 @@
 | Official released baseline | 0.9325 | 0.8260 | 0.8760 | 0.9727 | 0.5644 | 0.7143 | 0.7952 |
 | E3 weighted BCE, 2,000 steps | 0.8495 | 0.7268 | 0.7834 | 0.9745 | 0.5307 | 0.6872 | 0.7353 |
 | E5 weighted BCE, best at step 4,000 | 0.8509 | 0.7898 | 0.8192 | 0.9926 | 0.5327 | 0.6933 | 0.7563 |
-| **E8 weighted BCE + scheduler, 10,000 steps** | **0.9014** | **0.8049** | **0.8504** | **0.9652** | **0.5485** | **0.6995** | **0.7750** |
+| E8 weighted BCE + scheduler, 10,000 steps | 0.9014 | 0.8049 | 0.8504 | 0.9652 | 0.5485 | 0.6995 | 0.7750 |
+| **E9-Fresh weighted BCE + scheduler, best step 13,000** | **0.9114** | **0.8051** | **0.8550** | **0.9725** | **0.5604** | **0.7111** | **0.7830** |
 
 Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3 ~417.77 seconds for the public split. No same-procedure E5 timing measurement is recorded. E8 wall-clock inference from model loading excluded and timed inference was 486.06 seconds on its Kaggle session, which is not necessarily hardware-comparable. These timings are not the organizer's official runtime/GFLOPs ranking.
 
@@ -25,7 +26,7 @@ Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3
 | E6 | Post-hoc threshold search on E5 pilot | 0.8200 | 0.6080 | 0.7140 | Thresholds [0.43, 0.99]; exploratory only |
 | E7 | Weighted BCE [1,10], 6,000 steps; linear learning-rate decay; best at step 6,000 | 0.8188 | 0.6080 | 0.7134 | Pilot only; public split not yet evaluated |
 | **E8** | Weighted BCE [1,10], 10,000 steps; linear schedule, 1,000 warmup steps | **0.8399** | **0.6142** | **0.7270** | Best at 10,000; public split evaluated |
-| **E9-Fresh** | Weighted BCE [1,10], 15,000 steps; linear scheduler, 1,500 warmup steps | **0.8502** | **0.6615** | **0.7559** | Best at 13,000; public split pending |
+| **E9-Fresh** | Weighted BCE [1,10], 15,000 steps; linear scheduler, 1,500 warmup steps | **0.8502** | **0.6615** | **0.7559** | Best at 13,000; public split evaluated |
 
 ### Pilot threshold analyses
 
@@ -92,7 +93,7 @@ The reported split was `internal_holdout_excluding_exact_pilot_code_hashes`. The
 
 The recorded E3 clean-holdout mean F1 was 0.7360. E8's 0.77026 is **0.0343 higher on nominally comparable internal holdout conditions**; exact dataset revision and row membership must still be audited.
 
-**E8 public split result:** 30,655 rows, thresholds [0.5,0.5], max length 256: vulnerability P 0.90140, R 0.80491, F1 0.85043, confusion [[19718,885],[1961,8091]]; debt P 0.96516, R 0.54851, F1 0.69949, confusion [[30140,10],[228,277]]. Mean F1 **0.7749629467**, compared with the released baseline 0.795157 under the recorded local protocol. E8 is the strongest *participant-trained* checkpoint so far but still trails the released baseline by ~0.0202. This public split has informed model decisions; do not claim a blind test.
+**E8 public split result:** 30,655 rows, thresholds [0.5,0.5], max length 256: vulnerability P 0.90140, R 0.80491, F1 0.85043, confusion [[19718,885],[1961,8091]]; debt P 0.96516, R 0.54851, F1 0.69949, confusion [[30140,10],[228,277]]. Mean F1 **0.7749629467**, compared with the released baseline 0.795157 under the recorded local protocol. E8 was the strongest *participant-trained* checkpoint prior to E9 but still trails the released baseline by ~0.0202. This public split has informed model decisions; do not claim a blind test.
 
 Artifacts remain in Kaggle, including `E8_results_metadata.zip`, best checkpoint and resume state; the repository does not yet host those files.
 
@@ -112,7 +113,7 @@ E9-Fresh trained independently from `microsoft/codebert-base`; this is **not** a
 | Technical Debt | 0.993631 | 0.549296 | **0.707483** | [[16135,1],[128,156]] |
 | **Mean** | — | — | **0.776505** | — |
 
-Compared with E8's recorded clean holdout mean F1 of 0.770259, E9 is higher by about **0.00625** on nominally comparable within-project splits. Split identity and seed controls should be verified before treating this as a strictly paired experiment. **E9's official public-split mean F1 is not yet reported.** Do not compare the 0.7765 holdout mean with the released baseline's 0.7952 public-split mean.
+Compared with E8's recorded clean holdout mean F1 of 0.770259, E9 is higher by about **0.00625** on nominally comparable within-project splits. Split identity and seed controls should be verified before treating this as a strictly paired experiment. **E9 public-split result:** 30,655 rows, 256-token evaluation, fixed thresholds [0.5,0.5]. Vulnerability P=0.9113738739, R=0.8051134103, F1=0.8549545743, confusion [[19816,787],[1959,8093]]. Debt P=0.9725085911, R=0.5603960396, F1=0.7110552764, confusion [[30142,8],[222,283]]. **Mean F1=0.7830049253.** Inference time=441.8847 seconds in the reported Kaggle session, not a controlled speed comparison. The released baseline's local mean F1 was 0.795157, approximately 0.01215 higher. The public split influenced development discussions; this is not a blind final evaluation.
 
 ## E3 internal generalization diagnostics (NOT the public split)
 
@@ -133,4 +134,4 @@ The unseen-file slice has only **18 actual debt positives**; its debt F1 is stat
 
 ## Interpretation
 
-E8 improved on E5 and E3 in the recorded 30,655-sample public evaluation but **did not beat** the released CodeBERT checkpoint. Weighted-loss benefits should not be presented as causally established across runs without matched initialization/sampling and multiple seeds.
+E9 improved on E8, E5 and E3 in the recorded 30,655-sample public evaluation but **did not beat** the released CodeBERT checkpoint. Weighted-loss benefits should not be presented as causally established across runs without matched initialization/sampling and multiple seeds.
