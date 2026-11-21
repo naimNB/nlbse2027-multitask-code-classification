@@ -1,0 +1,45 @@
+{
+  "experiment": "E9_fresh_weighted_bce_scheduler_15000",
+  "best_step": 13000,
+  "split": "internal_holdout_excluding_exact_pilot_code_hashes",
+  "rows": 16420,
+  "max_length": 256,
+  "thresholds": [
+    0.5,
+    0.5
+  ],
+  "limitations": "within-project; many file IDs overlap train; not a blind test",
+  "metrics": {
+    "Vulnerability": {
+      "precision": 0.9002509410288582,
+      "recall": 0.7970746158118867,
+      "f1": 0.8455268584896396,
+      "confusion_matrix": [
+        [
+          10542,
+          477
+        ],
+        [
+          1096,
+          4305
+        ]
+      ]
+    },
+    "Technical Debt": {
+      "precision": 0.9936305732484076,
+      "recall": 0.5492957746478874,
+      "f1": 0.7074829931972789,
+      "confusion_matrix": [
+        [
+          16135,
+          1
+        ],
+        [
+          128,
+          156
+        ]
+      ]
+    },
+    "mean_f1": 0.7765049258434593
+  }
+}
