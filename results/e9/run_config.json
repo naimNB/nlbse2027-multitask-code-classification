@@ -1,0 +1,44 @@
+{
+  "experiment": "E9_fresh_weighted_bce_scheduler_15000",
+  "mode": "fresh pretrained CodeBERT; NO E8 dependency",
+  "model": "microsoft/codebert-base",
+  "dataset": "NLBSE/nlbse27-code-comment-classification",
+  "seed": 42,
+  "max_steps": 15000,
+  "warmup_steps": 1500,
+  "eval_every": 1000,
+  "max_length": 256,
+  "batch_size": 8,
+  "eval_batch_size": 16,
+  "learning_rate": 0.00002,
+  "weight_decay": 0.01,
+  "positive_weights": [
+    1,
+    10
+  ],
+  "thresholds": [
+    0.5,
+    0.5
+  ],
+  "train_size": 193072,
+  "validation_size": 21452,
+  "pilot_size": 5000,
+  "clean_holdout_size": 16420,
+  "fingerprints": {
+    "train": "3cddf4a4a6931c5675b9c1f6c6769eafec0de0e5afd1f0ba25c18f79f1d7f4f2",
+    "validation": "d04193dd16f63d7cd80bca6b47372c3ee71663cefed2f0f1db6edc9d5dab20e2",
+    "pilot": "563363315b571ed7da81dd91c03bff117eefafde84ed48ff2054648b5d9bd09b",
+    "clean_holdout": "1b3351084be59cd76cd32543798edf81d3330ffc24c56c3d680c8c53a1f74abe",
+    "pilot_indices_sha256": "a5d0a92f870d840e8c3493968351f1c4b3752f1f112c59ce6ad523beac99d4b7"
+  },
+  "versions": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.20.2",
+    "datasets": "4.8.5",
+    "sklearn": "1.6.1",
+    "numpy": "2.1.3",
+    "pandas": "2.3.3"
+  },
+  "checkpoint_selection": "maximum pilot mean F1 at fixed [0.5,0.5] thresholds",
+  "notes": "Single-seed, within-project split; public split not used for model selection."
+}
