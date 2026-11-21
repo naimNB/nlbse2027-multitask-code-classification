@@ -49,10 +49,13 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 ## Repository layout
 
 - `scripts/evaluate_public.py` — evaluation of either a local checkpoint or a public Hugging Face model.
-- `results/EXPERIMENTS.md` — actual recorded E0–E9 experiment results.
+- `results/EXPERIMENTS.md` — recorded E0–E9 experiment results.
+- [`notebooks/E9_fresh_15k_codebert.ipynb`](notebooks/E9_fresh_15k_codebert.ipynb) — audited, output-free standalone training notebook.
+- [`results/e9/`](results/e9/) — E9 run configuration and pilot, holdout, and public evaluation JSON files.
+- [`figures/`](figures/) — E9 SVG pilot-F1 and public-test confusion-matrix figures.
 - `docs/REPRODUCIBILITY.md` — split construction, checkpoints, limitations, pending audits.
 - `paper/draft.md` — preliminary empirical-study write-up.
-- `notebooks/` — upload original clean Kaggle notebooks here when exported; do not fabricate notebook executions.
+- `notebooks/` — cleaned, output-free E9 notebook (code preserved; outputs intentionally removed).
 
 ## Important limitations
 
@@ -69,3 +72,13 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 - [CodeBERT paper](https://arxiv.org/abs/2002.08155)
 
 This is an independent participant project; it is not an official NLBSE organizer repository.
+
+## E9 reproducibility record
+
+The [E9 standalone notebook](notebooks/E9_fresh_15k_codebert.ipynb) and actual recorded [run configuration](results/e9/run_config.json), [pilot metrics](results/e9/best_metrics.json), [internal holdout metrics](results/e9/clean_holdout_metrics.json), and [public evaluation](results/e9/public_test_metrics.json) are now in the repository. The source notebook was checked for Python syntax, and its execution outputs and ad-hoc duplicate download cells were removed for publication. **This does not mean the complete training run was re-executed independently.** The uploaded E9 metadata ZIP has all 15 validation records and confirms best pilot checkpoint at step 13,000. The public evaluation JSON is transcribed from the participant's separate recorded public-evaluation output; it was not inside the uploaded metadata ZIP.
+
+![E9 pilot mean and task F1 by training step](figures/e9_pilot_f1.svg)
+
+![E9 public-split confusion matrices](figures/e9_public_confusion_matrices.svg)
+
+The model weights are **not hosted in this repository**. The participant retains a verified local `E9_BEST_MODEL.zip` backup; a publicly accessible model artifact and a competition-compatible inference wrapper still need verification before final submission.
