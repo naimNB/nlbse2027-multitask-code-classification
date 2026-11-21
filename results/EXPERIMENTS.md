@@ -25,6 +25,7 @@ Timing in the local earlier evaluation: released baseline ~414.16 seconds and E3
 | E6 | Post-hoc threshold search on E5 pilot | 0.8200 | 0.6080 | 0.7140 | Thresholds [0.43, 0.99]; exploratory only |
 | E7 | Weighted BCE [1,10], 6,000 steps; linear learning-rate decay; best at step 6,000 | 0.8188 | 0.6080 | 0.7134 | Pilot only; public split not yet evaluated |
 | **E8** | Weighted BCE [1,10], 10,000 steps; linear schedule, 1,000 warmup steps | **0.8399** | **0.6142** | **0.7270** | Best at 10,000; public split evaluated |
+| **E9-Fresh** | Weighted BCE [1,10], 15,000 steps; linear scheduler, 1,500 warmup steps | **0.8502** | **0.6615** | **0.7559** | Best at 13,000; public split pending |
 
 ### Pilot threshold analyses
 
@@ -94,6 +95,24 @@ The recorded E3 clean-holdout mean F1 was 0.7360. E8's 0.77026 is **0.0343 highe
 **E8 public split result:** 30,655 rows, thresholds [0.5,0.5], max length 256: vulnerability P 0.90140, R 0.80491, F1 0.85043, confusion [[19718,885],[1961,8091]]; debt P 0.96516, R 0.54851, F1 0.69949, confusion [[30140,10],[228,277]]. Mean F1 **0.7749629467**, compared with the released baseline 0.795157 under the recorded local protocol. E8 is the strongest *participant-trained* checkpoint so far but still trails the released baseline by ~0.0202. This public split has informed model decisions; do not claim a blind test.
 
 Artifacts remain in Kaggle, including `E8_results_metadata.zip`, best checkpoint and resume state; the repository does not yet host those files.
+
+## E9-Fresh training and holdout results (21 November 2026)
+
+E9-Fresh trained independently from `microsoft/codebert-base`; this is **not** a resumed E8 run. Training ended at 15,000 steps, with checkpoint at **13,000** chosen by internal pilot Mean F1. The fixed evaluation thresholds are [0.5,0.5] with 256-token truncation.
+
+| Pilot task | F1 at selected step 13,000 |
+|---|---:|
+| Vulnerability | 0.850163 |
+| Technical Debt | 0.661538 |
+| **Mean F1** | **0.755851** |
+
+| Clean internal holdout task (16,420 rows) | Precision | Recall | F1 | Confusion matrix [[TN, FP], [FN, TP]] |
+|---|---:|---:|---:|---|
+| Vulnerability | 0.900251 | 0.797075 | **0.845527** | [[10542,477],[1096,4305]] |
+| Technical Debt | 0.993631 | 0.549296 | **0.707483** | [[16135,1],[128,156]] |
+| **Mean** | — | — | **0.776505** | — |
+
+Compared with E8's recorded clean holdout mean F1 of 0.770259, E9 is higher by about **0.00625** on nominally comparable within-project splits. Split identity and seed controls should be verified before treating this as a strictly paired experiment. **E9's official public-split mean F1 is not yet reported.** Do not compare the 0.7765 holdout mean with the released baseline's 0.7952 public-split mean.
 
 ## E3 internal generalization diagnostics (NOT the public split)
 
