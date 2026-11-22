@@ -42,11 +42,11 @@ These are **not hidden-test results or official rankings**. Separate runs cannot
 - [x] Re-review the IEEE manuscript source and rendered 4-page PDF for title, author, all sections, citations, figures and matched result data. The author has indicated the prior layout looks acceptable; the subsequent metric-table/citation revision still requires the author's quick final look.
 - [x] Ensure the main results comparison prominently uses the matched **512-token** E9 and baseline scores above, with task precision, recall and F1, macro averages, and local efficiency metrics.
 - [x] **Figure protocol audit for IEEE paper:** 512-token E9 confusion matrices and matched 512-token E9/baseline F1 comparison were redrawn from verified metrics. Training/pilot plots remain correctly labeled separately. The editable reviewed Overleaf source and PDF are prepared for author review; those files are not yet uploaded to this GitHub repository.
-- [ ] For a new E9 512-token confusion matrix: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Baseline matrices: vulnerability `[[20031,572],[650,9402]]`, SATD `[[30141,9],[100,405]]`. Label axes actual/predicted and row order negative/positive.
-- [ ] Distinguish internal pilot validation (used for checkpoint selection), labeled public-validation (HF `test`), and organizer-hidden test (never accessed).
+- [x] New E9 512-token confusion matrix documented and stored in [figures/e9_512_confusion_matrices.svg](../figures/e9_512_confusion_matrices.svg): vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Baseline matrices: vulnerability `[[20031,572],[650,9402]]`, SATD `[[30141,9],[100,405]]`. Label axes actual/predicted and row order negative/positive.
+- [x] Separate the internal pilot validation (checkpoint selection), labeled public-validation (HF `test`) and organizer-hidden test (never accessed) throughout the polished README, results and protocol guide.
 - [x] Compile and visually inspect the revised 4-page IEEE PDF: all four figures included, correct 512-token labels, captions, two results tables and no overfull-box warnings. Author must still inspect the final Overleaf render after any edit.
 - [x] Format source with IEEE `\\documentclass[10pt,conference]{IEEEtran}` (no `compsoc`), reviewed PDF length 4 pages including references, author/affiliation shown, cited work and clickable GitHub/HF links. Final author approval before actual submission remains required.
-- [ ] Confirm that the submitted code/notebook can run the **512-token** evaluation using the public checkpoint; the stored matched Colab notebook is provided, but a one-command inference entrypoint suitable for organizers should be reviewed against their full instructions.
+- [x] Provide published model loading, a functional inference CLI at [scripts/predict.py](../scripts/predict.py) and a completed [512-token Colab reference-style notebook](../notebooks/E9_Colab_T4_reference_style_evaluation.ipynb). This establishes executable documentation, **not** an organizer-provided hidden-test inference contract or official runtime validation.
 - [ ] Open the official Google Form and verify any form-specific fields/attachments. Upload the actual finished PDF and required links **only after reviewing the filled form**.
 - [ ] Retain submission confirmation/email/receipt.
 
@@ -61,3 +61,15 @@ The editable IEEEtran source and reviewed 4-page PDF have been regenerated after
 ## 23 November 2026 manuscript QA
 
 A new Overleaf-ready IEEE project and compiled 4-page PDF were generated in the active conversation. The revised Fig. 3 contains **512-token** E9 confusion matrices; Fig. 4 contains the **matched 512-token** E9 vs baseline F1 comparison. Fig. 1 is the *pilot validation* F1 progression and Fig. 2 is *logged training loss*. The original **256-token** checkpoint comparison remains separately identified as Table I; the matched **512-token** result is Table II. The PDF is still **unsubmitted**; the author must upload the approved final PDF using the tool competition's Google Form and retain its confirmation receipt.
+
+## Repository polish (23 November 2026)
+
+- [x] Submission-focused README with the **512-token matched** result displayed first, not the historical 256-token table.
+- [x] Single-function/file/JSONL inference CLI and documented commands.
+- [x] Lightweight JSON and confusion-matrix integrity tests.
+- [x] GitHub Actions continuous verification (syntax, tests and CLI smoke checks).
+- [x] Correctly labeled 512-token SVG plots and separate historical 256-token figure documentation.
+- [x] CITATION.cff citation metadata and paper/README.md clarify manuscript status.
+- [ ] A license has **not** been selected or applied; the author should decide whether to publish the code under a suitable open-source license. Do not silently assume or grant legal reuse rights.
+
+**Form submission has not been verified in GitHub.** Keep the original submitted PDF and confirmation receipt separately.
