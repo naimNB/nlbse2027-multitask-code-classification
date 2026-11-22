@@ -122,3 +122,7 @@ The participant also uploaded the public model card `README.md` to the [E9 Huggi
 | Local reference-formula score | 0.709883 | 0.728982 |
 
 These are separate Colab T4 runs with matching max length 512, batch size 600, global padding and FP16; the organizer hidden test has not been evaluated. Detailed protocol: [official evaluation documentation](docs/OFFICIAL_EVALUATION.md). Recorded [baseline metrics](results/baseline/colab_t4_matched_512_metrics.json). The earlier 256-token results table is **not** an apples-to-apples comparison with the organizers' published 512-token baseline.
+
+## Finalized Hugging Face model card
+
+The participant confirmed publication of the updated Hugging Face model card with matched 512-token baseline comparison: [HF commit `f5df3b8`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/f5df3b8bdab84a086d4c23311dd71eb051ef4452). This documents the public-validation E9-versus-baseline results. Final NLBSE Tool Competition paper submission remains a separate action and **has not been completed**.
