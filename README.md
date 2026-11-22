@@ -28,7 +28,7 @@ All rows below were evaluated locally at **fixed thresholds (0.5, 0.5)** with 25
 | E8 — Weighted BCE + scheduler, 10,000 steps | 0.8504 | 0.6995 | 0.7750 |
 | **E9-Fresh — Weighted BCE + scheduler, best step 13,000** | **0.8550** | **0.7111** | **0.7830** |
 
-At 256 tokens the released checkpoint still outperforms E9 by about **0.0122 mean-F1 points** on this **local** comparison. The organizers report a different baseline mean F1 (~0.910) in their task README; the discrepancy is unresolved, so our local baseline figure must not be mistaken for the official published baseline result. We do not claim a state-of-the-art result.
+At 256 tokens the released checkpoint still outperforms E9 by about **0.0122 mean-F1 points** on this **local** comparison. The organizers report baseline Mean F1 ~0.910 in their task README, and a matched 512-token T4 rerun of the released checkpoint now reproduces **0.910186**. The 0.7952 in the historical table is **256-token local baseline evaluation**, not the organizer's reference setting. We do not claim a state-of-the-art result.
 
 See [results/EXPERIMENTS.md](results/EXPERIMENTS.md) for precision/recall, split-specific diagnostics, and limitations.
 
@@ -80,7 +80,7 @@ This is an independent participant project; it is not an official NLBSE organize
 
 ## Newly verified 512-token public-validation evaluation
 
-The same hosted E9 model, evaluated on **Google Colab Tesla T4** with a **512-token, global-padding, batch-600, fp16 mixed-precision** reference-style protocol (10 repeats), achieved vulnerability **F1 0.9059148023**, SATD **F1 0.8796498906** and **mean F1 0.8927823465**. The local efficiency-formula estimate was **0.7098832194** (240.0944 s average per public split; 2,666,509.7132 profiler-counted GFLOPs). These results are **not directly comparable** with the 256-token table above, and they are neither hidden-test scores nor official organizer rankings. See [full T4 metrics](results/e9/colab_t4_reference_style_512_metrics.json) and [evaluation protocol audit](docs/OFFICIAL_EVALUATION.md). Matched reference-style baseline evaluation is pending.
+The same hosted E9 model, evaluated on **Google Colab Tesla T4** with a **512-token, global-padding, batch-600, fp16 mixed-precision** reference-style protocol (10 repeats), achieved vulnerability **F1 0.9059148023**, SATD **F1 0.8796498906** and **mean F1 0.8927823465**. The local efficiency-formula estimate was **0.7098832194** (240.0944 s average per public split; 2,666,509.7132 profiler-counted GFLOPs). These results are **not directly comparable** with the 256-token table above, and they are neither hidden-test scores nor official organizer rankings. See [full T4 metrics](results/e9/colab_t4_reference_style_512_metrics.json) and [evaluation protocol audit](docs/OFFICIAL_EVALUATION.md). Matched reference-style baseline evaluation is now complete: released baseline Mean F1 **0.9101860726** under the same 512-token T4 settings (versus E9 **0.8927823465**); [details and caveats](docs/OFFICIAL_EVALUATION.md).
 
 ## E9 reproducibility record
 
@@ -109,3 +109,16 @@ The competition organizer's README also reports a **different baseline evaluatio
 ## Hugging Face model card publication
 
 The participant also uploaded the public model card `README.md` to the [E9 Hugging Face model repository](https://huggingface.co/naimNB/nlbse2027-e9-codebert), confirmed by commit [`6331998768f9112f440ca029429640281f4df1b8`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/6331998768f9112f440ca029429640281f4df1b8). The model card documents architecture, training, independent 30,655-row public-test replication, limitations, and usage. Publication is confirmed from the participant's upload log; organizer-compatible inference and official efficiency scoring are still pending.
+
+## Matched 512-token model comparison
+
+| Metric | E9-Fresh | Released baseline |
+|---|---:|---:|
+| Vulnerability F1 | 0.905915 | 0.938979 |
+| SATD F1 | 0.879650 | 0.881393 |
+| Mean F1 | 0.892782 | 0.910186 |
+| Average synchronized inference (seconds) | 240.0944 | 196.8109 |
+| Average profiler GFLOPs | 2666509.7132 | 2666509.7132 |
+| Local reference-formula score | 0.709883 | 0.728982 |
+
+These are separate Colab T4 runs with matching max length 512, batch size 600, global padding and FP16; the organizer hidden test has not been evaluated. Detailed protocol: [official evaluation documentation](docs/OFFICIAL_EVALUATION.md). Recorded [baseline metrics](results/baseline/colab_t4_matched_512_metrics.json). The earlier 256-token results table is **not** an apples-to-apples comparison with the organizers' published 512-token baseline.
