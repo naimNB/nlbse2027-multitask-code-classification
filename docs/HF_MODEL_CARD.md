@@ -31,9 +31,23 @@ An **independent participant-trained model** for the NLBSE 2027 Multitask Code C
 - Fine-tuning: weighted binary cross-entropy with positive-class weights `[1.0, 10.0]`, batch size 8, peak learning rate `2e-5`, weight decay `0.01`, linear learning-rate decay and 1,500 warmup steps.
 - Training: fresh pretrained CodeBERT initialization, 15,000 optimization steps, checkpoint **selected at step 13,000 using internal pilot validation**. This run is **not** a continuation of E8.
 
+## Reference-style evaluation on Colab Tesla T4: 512 tokens
+
+A new independently executed reference-style evaluation of this **same, already-trained checkpoint** on all 30,655 labeled public-validation functions used global padding, maximum input length 512, batch size 600, FP16 autocast, 10 repeated forward passes and fixed sigmoid thresholds of 0.5.
+
+| Task | Precision | Recall | F1 |
+|---|---:|---:|---:|
+| Vulnerability | 0.9309258870 | 0.8822124950 | 0.9059148023 |
+| SATD | 0.9828850856 | 0.7960396040 | 0.8796498906 |
+| **Mean F1** | — | — | **0.8927823465** |
+
+Confusion matrices: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Average 10-repeat synchronized inference time: **240.0944 seconds**; average profiler-counted GFLOPs: **2,666,509.7132**; **local reference-formula score 0.7098832194**. This is **not an official hidden-test result or organizer efficiency ranking**. The reported official baseline Mean F1 (~0.910) has not yet been reproduced under matched settings. [Full experimental JSON](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/results/e9/colab_t4_reference_style_512_metrics.json).
+
+**The 256-token results below are from a different local protocol, not a direct matched baseline comparison.** No retraining occurred between these evaluations. Changes to input length, padding, batch size and precision occurred together, so the cause of the score gap cannot be isolated.
+
 ## Evaluation: public split (30,655 examples)
 
-Evaluation was run with the open [evaluation script](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/scripts/evaluate_public.py), `max_length=256` and both thresholds set to `0.5`.
+The historical 256-token evaluation was run with the open [evaluation script](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/scripts/evaluate_public.py), `max_length=256` and both thresholds set to `0.5`.
 
 | Task | Precision | Recall | F1 |
 |---|---:|---:|---:|
