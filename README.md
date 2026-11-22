@@ -28,7 +28,7 @@ All rows below were evaluated locally at **fixed thresholds (0.5, 0.5)** with 25
 | E8 — Weighted BCE + scheduler, 10,000 steps | 0.8504 | 0.6995 | 0.7750 |
 | **E9-Fresh — Weighted BCE + scheduler, best step 13,000** | **0.8550** | **0.7111** | **0.7830** |
 
-The released checkpoint still outperforms E9 by about **0.0122 mean-F1 points** on this **local** comparison. The organizers report a different baseline mean F1 (~0.910) in their task README; the discrepancy is unresolved, so our local baseline figure must not be mistaken for the official published baseline result. We do not claim a state-of-the-art result.
+At 256 tokens the released checkpoint still outperforms E9 by about **0.0122 mean-F1 points** on this **local** comparison. The organizers report a different baseline mean F1 (~0.910) in their task README; the discrepancy is unresolved, so our local baseline figure must not be mistaken for the official published baseline result. We do not claim a state-of-the-art result.
 
 See [results/EXPERIMENTS.md](results/EXPERIMENTS.md) for precision/recall, split-specific diagnostics, and limitations.
 
@@ -77,6 +77,10 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 - [CodeBERT paper](https://arxiv.org/abs/2002.08155)
 
 This is an independent participant project; it is not an official NLBSE organizer repository.
+
+## Newly verified 512-token public-validation evaluation
+
+The same hosted E9 model, evaluated on **Google Colab Tesla T4** with a **512-token, global-padding, batch-600, fp16 mixed-precision** reference-style protocol (10 repeats), achieved vulnerability **F1 0.9059148023**, SATD **F1 0.8796498906** and **mean F1 0.8927823465**. The local efficiency-formula estimate was **0.7098832194** (240.0944 s average per public split; 2,666,509.7132 profiler-counted GFLOPs). These results are **not directly comparable** with the 256-token table above, and they are neither hidden-test scores nor official organizer rankings. See [full T4 metrics](results/e9/colab_t4_reference_style_512_metrics.json) and [evaluation protocol audit](docs/OFFICIAL_EVALUATION.md). Matched reference-style baseline evaluation is pending.
 
 ## E9 reproducibility record
 
