@@ -96,3 +96,7 @@ The participant independently evaluated the public Hugging Face model [`naimNB/n
 Original local-checkpoint inference wall time: **441.8847 s**. Hosted-checkpoint inference wall time: **457.1878 s**. These are different sessions and do not establish a controlled speed comparison or official compute ranking. This confirms checkpoint portability and **evaluation replication**, not full training reproducibility, blind generalization or organizer hidden-test performance.
 
 The competition organizer's README also reports a **different baseline evaluation score** (mean F1 approximately 0.910); our earlier locally evaluated baseline checkpoint gave 0.7952. The protocols/processing underlying that discrepancy have not been reconciled, so do not present the locally evaluated baseline score as the organizers' official score.
+
+## Hugging Face model card publication
+
+The participant also uploaded the public model card `README.md` to the [E9 Hugging Face model repository](https://huggingface.co/naimNB/nlbse2027-e9-codebert), confirmed by commit [`6331998768f9112f440ca029429640281f4df1b8`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/6331998768f9112f440ca029429640281f4df1b8). The model card documents architecture, training, independent 30,655-row public-test replication, limitations, and usage. Publication is confirmed from the participant's upload log; organizer-compatible inference and official efficiency scoring are still pending.
