@@ -43,7 +43,7 @@ Under the local protocol, the 15,000-step E9-Fresh run has the highest mean F1 a
 
 ## Model artifact
 
-The participant reports a successful upload of the E9 selected checkpoint to [Hugging Face](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit `33031d7072989699bd27a25284b60d81b396b26b`. This artifact has not yet been independently downloaded and tested in a fresh environment, and an organizer-compatible inference wrapper is pending. Include the link in the submission manuscript only with these qualifications until verification completes.
+The participant reports a successful upload of the E9 selected checkpoint to [Hugging Face](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit `33031d7072989699bd27a25284b60d81b396b26b`. Unauthenticated download and basic CUDA inference were verified in a new Kaggle notebook (two-logit output); full public-split metric replication and an organizer-compatible inference wrapper are still pending. Include the link in the submission manuscript only with these qualifications until verification completes.
 
 ## References (to complete)
 
