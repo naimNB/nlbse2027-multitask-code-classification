@@ -39,8 +39,8 @@ These are **not hidden-test results or official rankings**. Separate runs cannot
 
 ## Still required before submitting
 
-- [ ] Open the 4-page Overleaf IEEE manuscript and review every section and bibliography entry.
-- [ ] Ensure the main results comparison prominently uses the matched **512-token** E9 and baseline scores above.
+- [x] Re-review the IEEE manuscript source and rendered 4-page PDF for title, author, all sections, citations, figures and matched result data. The author has indicated the prior layout looks acceptable; the subsequent metric-table/citation revision still requires the author's quick final look.
+- [x] Ensure the main results comparison prominently uses the matched **512-token** E9 and baseline scores above, with task precision, recall and F1, macro averages, and local efficiency metrics.
 - [x] **Figure protocol audit for IEEE paper:** 512-token E9 confusion matrices and matched 512-token E9/baseline F1 comparison were redrawn from verified metrics. Training/pilot plots remain correctly labeled separately. The editable reviewed Overleaf source and PDF are prepared for author review; those files are not yet uploaded to this GitHub repository.
 - [ ] For a new E9 512-token confusion matrix: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Baseline matrices: vulnerability `[[20031,572],[650,9402]]`, SATD `[[30141,9],[100,405]]`. Label axes actual/predicted and row order negative/positive.
 - [ ] Distinguish internal pilot validation (used for checkpoint selection), labeled public-validation (HF `test`), and organizer-hidden test (never accessed).
@@ -51,6 +51,12 @@ These are **not hidden-test results or official rankings**. Separate runs cannot
 - [ ] Retain submission confirmation/email/receipt.
 
 **Do not claim a submission has been completed until the official form confirms it.**
+
+## 23 November 2026 final PDF review revision
+
+The editable IEEEtran source and reviewed 4-page PDF have been regenerated after final verification of the official competition instructions. Improvements: the main matched-512-token results table now includes precision and recall for each task and their two-task arithmetic means (required in the organizer's reference instructions), the organizer-provided full NLBSE competition citation was added, and the PDF title and author metadata are populated. PDF dimensions are US Letter, title 24 pt, body from the unmodified 10 pt IEEEtran conference layout, with embedded Nimbus Roman (Times-compatible), **not** Microsoft's Times New Roman. Four figures remain correctly placed, linked code/model URLs are active and no page-boundary text clipping was detected. The final artifact is prepared in the conversation as a reviewed Overleaf ZIP and PDF; it is **not automatically in this GitHub repo or the official submission system**.
+
+**Submission is still pending.** The official Google Form must receive the final approved PDF and required fields, and the user must save a confirmation/receipt. The form structure was not accessible in this review; do not guess its fields.
 
 ## 23 November 2026 manuscript QA
 
