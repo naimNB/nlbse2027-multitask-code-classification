@@ -1,3 +1,5 @@
+> **ARCHIVED EARLY DRAFT — NOT THE SUBMISSION MANUSCRIPT.** This file records the historical 256-token experimental stage and contains old interpretations. The authoritative **512-token matched results** are in [E9 T4 metrics](../results/e9/colab_t4_reference_style_512_metrics.json) and [released baseline T4 metrics](../results/baseline/colab_t4_matched_512_metrics.json). Read [paper/README.md](README.md) for the submitted-paper title and status. Do not cite this archived draft as final.
+
 # Investigating Imbalance-Aware Multitask Code Classification with CodeBERT
 
 **Working paper draft — not submission ready**
