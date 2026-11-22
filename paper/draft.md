@@ -27,7 +27,7 @@ We use `microsoft/codebert-base` with two binary output logits, corresponding to
 | E8, weighted BCE + schedule, 10,000 steps | 0.8504 | 0.6995 | 0.7750 |
 | **E9-Fresh, weighted BCE + schedule, best step 13,000** | **0.8550** | **0.7111** | **0.7830** |
 
-All values are from the **same local evaluation procedure** on the 30,655-example public split, not competition hidden-test scores. E9 improved over E3, E5 and E8 but did not surpass the released baseline. Its clean internal holdout reached vulnerability F1 0.8455 and debt F1 0.7075 (mean F1 0.7765); that set is within-project and not an independent unseen-project evaluation. E8's clean internal holdout on 16,420 rows reached vulnerability F1 0.8435 and debt F1 0.6970 (mean F1 0.7703), but this within-project set cannot establish generalization to unseen projects.
+All values are from the **same local evaluation procedure** on the 30,655-example public split, not competition hidden-test scores. The E9 column was independently replicated from the uploaded Hugging Face model in a fresh Kaggle session. The organizers' separate README reports a baseline mean F1 near 0.910, unlike our local baseline checkpoint evaluation of 0.7952; that discrepancy has not been reconciled and neither number should be confused with an E9 hidden-test result. E9 improved over E3, E5 and E8 but did not surpass the released baseline. Its clean internal holdout reached vulnerability F1 0.8455 and debt F1 0.7075 (mean F1 0.7765); that set is within-project and not an independent unseen-project evaluation. E8's clean internal holdout on 16,420 rows reached vulnerability F1 0.8435 and debt F1 0.6970 (mean F1 0.7703), but this within-project set cannot establish generalization to unseen projects.
 
 An E3 internal duplicate-filtered holdout yielded weakness F1 0.7794, debt F1 0.6925 and mean F1 0.7360. In a small unseen-file subset (854 rows, only 18 debt positives), debt F1 fell to 0.2857. This is a diagnostic rather than a conclusive generalization result.
 
@@ -43,7 +43,7 @@ Under the local protocol, the 15,000-step E9-Fresh run has the highest mean F1 a
 
 ## Model artifact
 
-The participant reports a successful upload of the E9 selected checkpoint to [Hugging Face](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit `33031d7072989699bd27a25284b60d81b396b26b`. Unauthenticated download and basic CUDA inference were verified in a new Kaggle notebook (two-logit output); full public-split metric replication and an organizer-compatible inference wrapper are still pending. Include the link in the submission manuscript only with these qualifications until verification completes.
+The participant reports a successful upload of the E9 selected checkpoint to [Hugging Face](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit `33031d7072989699bd27a25284b60d81b396b26b`. Unauthenticated download and basic CUDA inference were verified in a new Kaggle notebook (two-logit output); the hosted checkpoint was then independently re-evaluated on all 30,655 public examples and exactly matched the archived vulnerability and SATD P/R/F1 metrics and confusion matrices. An organizer-compatible inference wrapper remains pending. Include the link in the submission manuscript only with these qualifications until verification completes.
 
 ## References (to complete)
 
