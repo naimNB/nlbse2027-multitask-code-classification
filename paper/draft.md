@@ -35,13 +35,17 @@ An E3 internal duplicate-filtered holdout yielded weakness F1 0.7794, debt F1 0.
 
 Figure 1 (pilot F1 progression): [SVG figure](../figures/e9_pilot_f1.svg). Figure 2 (E9 public-split confusion matrices): [SVG figure](../figures/e9_public_confusion_matrices.svg). These are descriptive figures; they do not represent hidden-test results.
 
+### 3.1 Reference-style 512-token evaluation (new, separate protocol)
+
+On Colab Tesla T4, the independently hosted E9 checkpoint was evaluated on the same 30,655 public-validation rows using max length 512, global padding to length 512, batch size 600, FP16 autocast, 10 repeated inference passes and fixed thresholds 0.5. It achieved vulnerability precision 0.9309258870, recall 0.8822124950, F1 **0.9059148023**; SATD precision 0.9828850856, recall 0.7960396040, F1 **0.8796498906**; **mean F1 0.8927823465**. Confusion matrices: vulnerability [[19945,658],[1184,8868]], SATD [[30143,7],[103,402]]. Local reference formula score: 0.7098832194, with synchronized average runtime 240.0944 s and profiler-counted GFLOPs 2,666,509.7132. This is a *public-validation, local reference-style measurement*, not the organizer hidden-test or official ranking. It changes length, padding, batching and precision simultaneously versus the historical 256-token table; improvements cannot be attributed to sequence length alone. The organizer-reported baseline mean F1 (~0.910) requires a matched T4 run before direct model ranking.
+
 ## 4. Discussion and threats to validity
 
 The E9 experiment uses 120,000 distinct training examples sampled in one fixed randomized pass from 193,072 internal training rows, with a pilot-selected checkpoint. The experiments use partial training budgets, largely single-run results, and pilot-based checkpoint selection. Differences in initialization and example ordering limit causal interpretation of cross-run comparisons. Exact code hashes do not overlap between training and validation in the reported audit, but the internal splits share all 15 projects and many source-file identities. The public split was inspected during model development, and so must not be described as untouched final evaluation. The low prevalence and limited positive counts complicate confidence in subset estimates. Official hidden-test evaluation and computational-efficiency scoring remain unreported.
 
 ## 5. Conclusion
 
-Under the local protocol, the 15,000-step E9-Fresh run has the highest mean F1 among our tested checkpoints, while debt performance remains constrained by recall. The released baseline performs better overall. Future work includes matched-seed ablation studies, file/project-disjoint evaluation and calibration assessment.
+On the 512-token reference-style public-validation protocol, E9-Fresh obtains mean F1 0.8928. Under the separate historical 256-token local protocol, the 15,000-step E9-Fresh run has the highest mean F1 among our tested checkpoints, while debt performance remains constrained by recall. The released baseline performs better overall. Future work includes matched-seed ablation studies, file/project-disjoint evaluation and calibration assessment.
 
 ## Model artifact
 
