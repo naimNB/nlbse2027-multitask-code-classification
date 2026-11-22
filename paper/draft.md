@@ -41,6 +41,10 @@ The E9 experiment uses 120,000 distinct training examples sampled in one fixed r
 
 Under the local protocol, the 15,000-step E9-Fresh run has the highest mean F1 among our tested checkpoints, while debt performance remains constrained by recall. The released baseline performs better overall. Future work includes matched-seed ablation studies, file/project-disjoint evaluation and calibration assessment.
 
+## Model artifact
+
+The participant reports a successful upload of the E9 selected checkpoint to [Hugging Face](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit `33031d7072989699bd27a25284b60d81b396b26b`. This artifact has not yet been independently downloaded and tested in a fresh environment, and an organizer-compatible inference wrapper is pending. Include the link in the submission manuscript only with these qualifications until verification completes.
+
 ## References (to complete)
 
 1. NLBSE 2027 Multitask Code Classification official repository: https://github.com/nlbse2027/code-comment-classification
