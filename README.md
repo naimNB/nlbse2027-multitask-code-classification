@@ -32,6 +32,10 @@ The released checkpoint still outperforms E9 by about **0.0122 mean-F1 points** 
 
 See [results/EXPERIMENTS.md](results/EXPERIMENTS.md) for precision/recall, split-specific diagnostics, and limitations.
 
+## Reference-style evaluation on Colab T4
+
+The organizer's [reference baseline notebook](https://colab.research.google.com/drive/1q1fGPpU7uxaK1mUVHa3b2xJOtEwhWwLG) evaluates with **512 tokens**, globally padded inputs, mixed precision, 10 repeated inference passes and profiler-based compute measurement. This differs from the historical E9 **256-token** local evaluation. For a T4 reproducibility check with those reference settings, use the [participant Colab notebook](notebooks/E9_Colab_T4_reference_style_evaluation.ipynb) and read [the protocol comparison](docs/OFFICIAL_EVALUATION.md). It provides a local reference-style estimate; the organizer alone determines hidden-test rankings. The HF dataset's labeled `test` split is the competition's **public validation** set.
+
 ## Reproduce the evaluation
 
 Source dataset: [NLBSE/nlbse27-code-comment-classification](https://huggingface.co/datasets/NLBSE/nlbse27-code-comment-classification).
@@ -54,6 +58,7 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 - [`results/e9/`](results/e9/) — E9 run configuration and pilot, holdout, and public evaluation JSON files.
 - [`figures/`](figures/) — E9 SVG pilot-F1 and public-test confusion-matrix figures.
 - `docs/REPRODUCIBILITY.md` — split construction, checkpoints, limitations, pending audits.
+- `docs/OFFICIAL_EVALUATION.md` — organizer's baseline settings, score formula and T4 protocol differences.
 - `paper/draft.md` — preliminary empirical-study write-up.
 - `notebooks/` — cleaned, output-free E9 notebook (code preserved; outputs intentionally removed).
 
