@@ -19,7 +19,7 @@
 - Reported learning rate: 2e-5; weight decay: 0.01; batch size: 8; maximum length: 256. Verify these with saved run configs.
 - E7: weighted BCE with linear learning-rate warmup/decay; 6,000 steps completed, best checkpoint at step 6,000; pilot mean F1 0.7134. Public-split evaluation pending. Training duration 45.87 minutes. Verify actual warmup settings using the saved run configuration.
 - E8: 10,000 training steps, 1,000 linear warmup steps, peak LR 2e-5, weighted BCE [1,10], best step 10,000 on pilot. E8 local public mean F1 0.7749629467 (vulnerability F1 0.8504309439, debt F1 0.6994949495); 30,655 samples, 486.06-second inference wall time, and fixed [0.5,0.5] thresholds. Kaggle artifact export still pending.
-- E9-Fresh: 15,000 training steps from pretrained CodeBERT (NOT a resume of E8), 1,500 warmup steps, best step 13,000 by pilot mean F1. Public evaluation (30,655 rows): vulnerability F1 0.8549545743, debt F1 0.7110552764, mean F1 0.7830049253; thresholds [0.5,0.5], max length 256, observed inference wall time 441.88 s. Metadata and notebook are now published; model weights still require public artifact hosting and a load test.
+- E9-Fresh: 15,000 training steps from pretrained CodeBERT (NOT a resume of E8), 1,500 warmup steps, best step 13,000 by pilot mean F1. Public evaluation (30,655 rows): vulnerability F1 0.8549545743, debt F1 0.7110552764, mean F1 0.7830049253; thresholds [0.5,0.5], max length 256, observed inference wall time 441.88 s. Metadata and notebook are now published; model weights are hosted publicly and independently load-tested.
 - Local public-set comparison: 256-token truncation, batch size 16 at inference, sigmoid threshold 0.5 for both tasks.
 - Report binary precision, recall, F1 separately for each label; mean F1 = arithmetic mean of the two task F1 scores.
 - The organizer may require a different inference wrapper and resource scoring. Match the official competition contract before submission.
@@ -41,7 +41,7 @@ Kaggle's GPU PyTorch is typically sufficient; do not overwrite it blindly with a
 - [x] Publish cleaned E9-Fresh training notebook, run configuration including split fingerprints, pilot metrics, clean holdout metrics and public-split metrics in GitHub.
 - [x] Upload E9 best checkpoint to Hugging Face: https://huggingface.co/naimNB/nlbse2027-e9-codebert (commit 33031d7072989699bd27a25284b60d81b396b26b).
 - [x] Independently load-test uploaded checkpoint from Hugging Face on a new Kaggle notebook with no HF token: CUDA inference succeeded, logits shape (1,2), and sigmoid probabilities were produced.
-- [ ] Rerun fixed-threshold public-split evaluation from hosted checkpoint and compare all metrics/confusion matrices against the archived E9 metrics.
+- [x] Re-run public-split evaluation from the hosted checkpoint in a fresh Kaggle notebook: 30,655 samples, fixed [0.5,0.5], max length 256, both task P/R/F1 and confusion matrices identical to recorded E9 outputs; elapsed time 457.1878 s (not controlled benchmarking).
 - [ ] Preserve original E9 metadata ZIP and 15-step history, and publish or attach these as supplementary evidence.
 - [ ] Capture exact source-dataset revision and confirm split membership against saved fingerprints.
 - [ ] Archive optimizer resume state separately only if later training continuation is necessary.
@@ -60,3 +60,17 @@ Never commit raw datasets, Kaggle tokens, credentials, `.env` secrets, or 500MB 
 ## E9 captured environment and split fingerprints
 
 From the uploaded E9 `run_config.json`: Python notebook environment with PyTorch `2.11.0+cu130`, Transformers `5.20.2`, Datasets `4.8.5`, scikit-learn `1.6.1`, NumPy `2.1.3`, and pandas `2.3.3`. Seed 42; training used a fixed random permutation without replacement, 15,000 batches of eight (120,000 distinct training rows). Training split SHA-256 fingerprint: `3cddf4a4a6931c5675b9c1f6c6769eafec0de0e5afd1f0ba25c18f79f1d7f4f2`; pilot: `563363315b571ed7da81dd91c03bff117eefafde84ed48ff2054648b5d9bd09b`. The original source dataset revision was **not pinned** in the notebook, so identical checksums are necessary but cannot alone establish exact reproducibility in a future different environment.
+
+## Hosted E9 checkpoint replication (22 November 2026)
+
+The participant independently evaluated the public Hugging Face model [`naimNB/nlbse2027-e9-codebert`](https://huggingface.co/naimNB/nlbse2027-e9-codebert) using `scripts/evaluate_public.py` in a new Kaggle GPU notebook **without a Hugging Face access token**. The hosted checkpoint downloaded successfully and produced **bit-for-bit identical reported task metrics and confusion matrices** to the prior local-checkpoint public evaluation on 30,655 examples at max length 256 and thresholds `[0.5, 0.5]`:
+
+| Task | Precision | Recall | F1 | Confusion matrix |
+|---|---:|---:|---:|---|
+| Vulnerability | 0.9113738739 | 0.8051134103 | 0.8549545743 | `[[19816,787],[1959,8093]]` |
+| SATD | 0.9725085911 | 0.5603960396 | 0.7110552764 | `[[30142,8],[222,283]]` |
+| **Mean** | — | — | **0.7830049253** | — |
+
+Original local-checkpoint inference wall time: **441.8847 s**. Hosted-checkpoint inference wall time: **457.1878 s**. These are different sessions and do not establish a controlled speed comparison or official compute ranking. This confirms checkpoint portability and **evaluation replication**, not full training reproducibility, blind generalization or organizer hidden-test performance.
+
+The competition organizer's README also reports a **different baseline evaluation score** (mean F1 approximately 0.910); our earlier locally evaluated baseline checkpoint gave 0.7952. The protocols/processing underlying that discrepancy have not been reconciled, so do not present the locally evaluated baseline score as the organizers' official score.
