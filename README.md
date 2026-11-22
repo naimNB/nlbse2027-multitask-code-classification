@@ -63,7 +63,7 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 2. Pilot-to-holdout exact-code overlap was observed and filtered for the E3 clean diagnostic.
 3. Training budgets, shuffling, and seeds were not fully controlled across all historical runs.
 4. The public split was consulted during research, so it should not be called an untouched independent test.
-5. Model weights (~500 MB each), training datasets, raw predictions and split pickle files are not included in Git. E9 best weights were uploaded to Hugging Face; external load-testing is still pending.
+5. Model weights (~500 MB each), training datasets, raw predictions and split pickle files are not included in Git. E9 best weights were uploaded to Hugging Face; basic unauthenticated CUDA loading has passed; full public-split reevaluation is still pending.
 
 ## References and attribution
 
@@ -81,4 +81,4 @@ The [E9 standalone notebook](notebooks/E9_fresh_15k_codebert.ipynb) and actual r
 
 ![E9 public-split confusion matrices](figures/e9_public_confusion_matrices.svg)
 
-The participant's E9 best-checkpoint model files were **uploaded to Hugging Face**: [naimNB/nlbse2027-e9-codebert](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit [`33031d7072989699bd27a25284b60d81b396b26b`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/33031d7072989699bd27a25284b60d81b396b26b). This upload is verified by the participant's successful CLI commit log; independent download/loading and public visibility have **not yet been verified**. The participant also retains a verified local `E9_BEST_MODEL.zip` backup. A competition-compatible inference wrapper still requires verification before final submission.
+The participant's E9 best-checkpoint model files were **uploaded to Hugging Face**: [naimNB/nlbse2027-e9-codebert](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit [`33031d7072989699bd27a25284b60d81b396b26b`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/33031d7072989699bd27a25284b60d81b396b26b). This upload is verified by the participant's successful CLI commit log; independent download/loading and public visibility are **verified** by loading this model on a fresh Kaggle GPU session without a Hugging Face token. The participant also retains a verified local `E9_BEST_MODEL.zip` backup. A competition-compatible inference wrapper still requires verification before final submission.
