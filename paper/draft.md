@@ -17,6 +17,8 @@ Detecting both potential weaknesses and self-admitted maintenance debt from sour
 
 We use `microsoft/codebert-base` with two binary output logits, corresponding to weakness detection and MAT/SATD. Weighted configurations apply `BCEWithLogitsLoss` with positive weights [1,10]. The recorded E3 run used 2,000 optimizer steps. E5 allowed up to 6,000 steps, with a checkpoint selected at step 4,000 based on mean F1 over 5,000 internal pilot examples. E8 used the same positive-class weighting with 1,000-step warmup and linear decay across 10,000 steps; the pilot-selected checkpoint was at step 10,000. E9-Fresh ran up to 15,000 steps with 1,500-step warmup and linear decay; the pilot-selected checkpoint was at 13,000 steps. These experiments are not a fully controlled causal ablation. Our local public-split evaluation uses a fixed 0.5 decision threshold for each task and truncates to at most 256 tokens. The E9 run configuration records dataset-split fingerprints and dependency versions; however, its upstream dataset revision and complete train/validation row identifiers were not pinned.
 
+**Evaluation terminology:** The Hugging Face split named `test` (30,655 labeled rows) is the competition's **public validation** set. The organizer retains a separate 61,311-row hidden test. Our reported E3–E9 results use 256-token local evaluation; the organizer reference baseline notebook uses 512 tokens and different batching/precision. Its published ~0.910 baseline Mean F1 is not directly comparable with our separate 256-token baseline checkpoint evaluation of 0.7952 without reconciliation. A T4 reference-style 512-token run is pending and documented at `docs/OFFICIAL_EVALUATION.md`.
+
 ## 3. Results
 
 | Checkpoint | Weakness F1 | Debt F1 | Mean F1 |
