@@ -56,12 +56,12 @@ Earlier E9 public evaluations used `max_length=256`, dynamic per-batch padding, 
 
 These are legitimate local **public-validation** metrics. They do not directly provide the reference's 512-token F1 or efficiency score.
 
-The organizer's own README reports a baseline mean F1 of approximately **0.910**, while our earlier local evaluation of the released baseline checkpoint at **256 tokens** gave **0.795157**. Their **512-token** tokenizer/batching/precision setup differs substantially. This is a plausible explanation for the discrepancy but remains **unconfirmed** until the released baseline is evaluated under matched conditions. Do not report 0.795157 as the organizer's published baseline score.
+The organizer's own README reports baseline mean F1 of approximately **0.910**. A released-baseline checkpoint evaluated locally at **256 tokens** gave **0.795157**. A matched **512-token T4** evaluation of that checkpoint has now measured **0.9101860726**, aligning with the organizer's reported score. The protocols differ in token length, padding, batching, and precision, whose individual effects were not isolated. Do not report 0.795157 as the organizer's published baseline score.
 
 ## Next procedure
 
 1. Open [E9 Colab T4 reference-style notebook](../notebooks/E9_Colab_T4_reference_style_evaluation.ipynb) in Google Colab with a T4 GPU and run top-to-bottom. Save its JSON output.
-2. If possible, copy the notebook, change `MODEL_ID` to `NLBSE/nlbse27-code-comment-classification-baseline`, and repeat using **exactly the same** settings.
+2. Matched released-baseline 512-token evaluation is **completed** (see recorded JSON); rerun it only for reproducibility.
 3. Document the actual batch size, GPU, elapsed time, profiler-counted GFLOPs, fixed thresholds, and 512-token public-validation metrics.
 4. Use 512-token results only after measurement; do not fabricate them or silently replace the 256-token table.
 5. Confirm the competition submission form and produce a non-anonymous 2–4-page ICSE-formatted PDF with a model, code and reproduction links.
@@ -84,3 +84,28 @@ The participant executed the [reference-style T4 notebook](../notebooks/E9_Colab
 For contrast, the **same E9 checkpoint** had 256-token dynamic-batch-padding, non-fp16 local public-validation mean F1 **0.7830049253**. The new protocol raises mean F1 by about 0.1098 (vulnerability +0.0510, SATD +0.1686), but length, padding, batching and precision changed together. It does not isolate the benefit of 512-token truncation. No new training occurred. The competition's baseline README reports a separate mean F1 around 0.910; a **matched baseline run with this same T4 notebook is still pending**. The labeled public split is not the 61,311-example organizer hidden test.
 
 JSON evidence: [E9 T4 512-token metrics](../results/e9/colab_t4_reference_style_512_metrics.json). Do not mix 512-token F1 with the old 256-token E3/E5/E8 baseline table as if settings were matched.
+
+## Matched 512-token comparison: E9 versus released baseline (23 November 2026)
+
+Both checkpoints were run in **separate Colab Tesla T4 executions** using the same reference-style script and settings: `max_length=512`, global padding to 512, batch size 600, FP16 autocast, 10 repeated forward passes, sigmoid thresholds [0.5,0.5], and explicit CUDA synchronization. Each run used all **30,655 public-validation rows**; neither is hidden-test evaluation.
+
+| Measurement | E9-Fresh | Released baseline |
+|---|---:|---:|
+| Vulnerability precision | 0.9309258870 | 0.9426508923 |
+| Vulnerability recall | 0.8822124950 | 0.9353362515 |
+| **Vulnerability F1** | **0.9059148023** | **0.9389793269** |
+| SATD precision | 0.9828850856 | 0.9782608696 |
+| SATD recall | 0.7960396040 | 0.8019801980 |
+| **SATD F1** | **0.8796498906** | **0.8813928183** |
+| **Mean F1** | **0.8927823465** | **0.9101860726** |
+| Average runtime per public split | 240.0944 s | 196.8109 s |
+| Avg profiler-counted GFLOPs | 2,666,509.7132 | 2,666,509.7132 |
+| **Local reference-formula score** | **0.7098832194** | **0.7289821579** |
+
+Baseline confusion matrices: vulnerability `[[20031,572],[650,9402]]`; SATD `[[30141,9],[100,405]]`. E9 matrices: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`.
+
+The baseline exceeds E9 by **0.0174037 mean-F1 points** and **0.0190989 local combined-score points**. Nearly all of the mean-F1 difference comes from the vulnerability task (F1 gap **0.0330645**); the SATD F1 gap is **0.0017429**. The organizer README baseline mean F1 (~0.910) is now reproduced using a matched local 512-token protocol, explaining why its figure differed from an earlier **256-token** local baseline run (0.7952). Input length, padding, batch size and mixed precision all differed between the old and new protocols, so this is not an isolated sequence-length ablation.
+
+Average run time is **43.28 s lower for baseline** in these two executions, but executions were separate rather than interleaved; do not interpret this as a controlled or official efficiency ranking. The added CUDA synchronization differs from the organizer's reference notebook. Both local combined scores are estimates and **not hidden-test or organizer leaderboard scores**.
+
+Evidence: [E9 JSON](../results/e9/colab_t4_reference_style_512_metrics.json), [baseline JSON](../results/baseline/colab_t4_matched_512_metrics.json). The published baseline score discrepancy is reconciled at the level of the same measured mean F1, not by establishing an exclusive causal explanation for earlier protocol differences.
