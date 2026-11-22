@@ -4,6 +4,8 @@
 
 ## Public split — 30,655 rows, 256 tokens, thresholds [0.5, 0.5]
 
+This Hugging Face `test` split is **public validation** for the competition, not the hidden organizer test (61,311 rows). The organizer baseline notebook uses **512 tokens, global padding, mixed precision and 10 repeated passes**, so its published baseline mean F1 (~0.910) is not directly comparable to the locally evaluated **256-token** released-checkpoint baseline (0.7952). See [official evaluation protocol audit](../docs/OFFICIAL_EVALUATION.md).
+
 | Model | Weakness P | Weakness R | Weakness F1 | Debt P | Debt R | Debt F1 | Mean F1 |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Official released baseline | 0.9325 | 0.8260 | 0.8760 | 0.9727 | 0.5644 | 0.7143 | 0.7952 |
