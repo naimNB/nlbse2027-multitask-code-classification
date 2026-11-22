@@ -137,3 +137,19 @@ The unseen-file slice has only **18 actual debt positives**; its debt F1 is stat
 ## Interpretation
 
 E9 improved on E8, E5 and E3 in the recorded 30,655-sample public evaluation but **did not beat** the released CodeBERT checkpoint. Weighted-loss benefits should not be presented as causally established across runs without matched initialization/sampling and multiple seeds.
+
+## E9 reference-style 512-token evaluation (Colab Tesla T4; 23 Nov 2026)
+
+The participant executed the [reference-style T4 notebook](../notebooks/E9_Colab_T4_reference_style_evaluation.ipynb) on **all 30,655 labeled public-validation rows** using the publicly uploaded E9 model. Configuration: max_length=512, globally padded length 512, batch=600 (no OOM fallback), fp16 autocast, 10 repeated inference passes, thresholds [0.5,0.5], CUDA synchronization added for elapsed-time measurement.
+
+| Task | Precision | Recall | F1 | Confusion matrix [[TN,FP],[FN,TP]] |
+|---|---:|---:|---:|---|
+| Vulnerability | 0.9309258870 | 0.8822124950 | **0.9059148023** | [[19945,658],[1184,8868]] |
+| Technical debt / SATD | 0.9828850856 | 0.7960396040 | **0.8796498906** | [[30143,7],[103,402]] |
+| **Mean** | — | — | **0.8927823465** | — |
+
+**Local reference-formula efficiency estimate (not official):** 10 repeated passes took 2,400.9437 seconds total; reported average full-public-set runtime = **240.0944 seconds**; average profiler-counted operation total = **2,666,509.7132 GFLOPs**; combined local score = **0.7098832194**. The reference notebook's timer lacks explicit CUDA synchronization whereas ours synchronizes; do not treat this as an identical official measurement. Profiler-reported GFLOPs is an operation count, not throughput.
+
+For contrast, the **same E9 checkpoint** had 256-token dynamic-batch-padding, non-fp16 local public-validation mean F1 **0.7830049253**. The new protocol raises mean F1 by about 0.1098 (vulnerability +0.0510, SATD +0.1686), but length, padding, batching and precision changed together. It does not isolate the benefit of 512-token truncation. No new training occurred. The competition's baseline README reports a separate mean F1 around 0.910; a **matched baseline run with this same T4 notebook is still pending**. The labeled public split is not the 61,311-example organizer hidden test.
+
+JSON evidence: [E9 T4 512-token metrics](e9/colab_t4_reference_style_512_metrics.json). Do not mix 512-token F1 with the old 256-token E3/E5/E8 baseline table as if settings were matched.
