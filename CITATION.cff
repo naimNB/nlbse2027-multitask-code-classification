@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, cite this repository and the NLBSE 2027 dataset/competition and CodeBERT papers."
+type: software
+title: "Imbalance-Aware CodeBERT for Joint Vulnerability and Self-Admitted Technical Debt Classification"
+authors:
+  - family-names: Babu
+    given-names: Md Naim
+    affiliation: "Department of Computer Science and Engineering, Pundra University of Science & Technology, Bangladesh"
+    email: naim.cse2004@gmail.com
+repository-code: "https://github.com/naimNB/nlbse2027-multitask-code-classification"
+url: "https://huggingface.co/naimNB/nlbse2027-e9-codebert"
+abstract: "Participant-trained CodeBERT multitask classifier for vulnerability and self-admitted technical debt prediction, with reproducible public-validation evaluation records."
+keywords:
+  - CodeBERT
+  - vulnerability detection
+  - self-admitted technical debt
+  - code classification
+  - NLBSE 2027
