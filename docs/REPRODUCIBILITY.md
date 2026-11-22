@@ -40,7 +40,8 @@ Kaggle's GPU PyTorch is typically sufficient; do not overwrite it blindly with a
 - [ ] E5 best checkpoint, tokenizer and `run_config.json` (host large files outside Git).
 - [x] Publish cleaned E9-Fresh training notebook, run configuration including split fingerprints, pilot metrics, clean holdout metrics and public-split metrics in GitHub.
 - [x] Upload E9 best checkpoint to Hugging Face: https://huggingface.co/naimNB/nlbse2027-e9-codebert (commit 33031d7072989699bd27a25284b60d81b396b26b).
-- [ ] Independently load-test this checkpoint from Hugging Face on Kaggle and reproduce the fixed-threshold public-split metrics; check that access is public.
+- [x] Independently load-test uploaded checkpoint from Hugging Face on a new Kaggle notebook with no HF token: CUDA inference succeeded, logits shape (1,2), and sigmoid probabilities were produced.
+- [ ] Rerun fixed-threshold public-split evaluation from hosted checkpoint and compare all metrics/confusion matrices against the archived E9 metrics.
 - [ ] Preserve original E9 metadata ZIP and 15-step history, and publish or attach these as supplementary evidence.
 - [ ] Capture exact source-dataset revision and confirm split membership against saved fingerprints.
 - [ ] Archive optimizer resume state separately only if later training continuation is necessary.
