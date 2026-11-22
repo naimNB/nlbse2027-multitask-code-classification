@@ -41,13 +41,17 @@ These are **not hidden-test results or official rankings**. Separate runs cannot
 
 - [ ] Open the 4-page Overleaf IEEE manuscript and review every section and bibliography entry.
 - [ ] Ensure the main results comparison prominently uses the matched **512-token** E9 and baseline scores above.
-- [ ] **Figure protocol audit:** previously prepared confusion matrices and model-comparison figure were generated at **256 tokens**. Either redraw them for 512 tokens using the correct matrices below, or explicitly retain and caption them as historical 256-token diagnostics. Do **not** label them as 512-token matrices.
+- [x] **Figure protocol audit for IEEE paper:** 512-token E9 confusion matrices and matched 512-token E9/baseline F1 comparison were redrawn from verified metrics. Training/pilot plots remain correctly labeled separately. The editable reviewed Overleaf source and PDF are prepared for author review; those files are not yet uploaded to this GitHub repository.
 - [ ] For a new E9 512-token confusion matrix: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Baseline matrices: vulnerability `[[20031,572],[650,9402]]`, SATD `[[30141,9],[100,405]]`. Label axes actual/predicted and row order negative/positive.
 - [ ] Distinguish internal pilot validation (used for checkpoint selection), labeled public-validation (HF `test`), and organizer-hidden test (never accessed).
-- [ ] Ensure figures are legible at final PDF column width, captions accurately describe datasets/protocols, and all text/tables stay within margins.
-- [ ] Check IEEE `\\documentclass[10pt,conference]{IEEEtran}` (no `compsoc` options), final PDF length 2–4 pages **including references**, non-anonymous author details, proper citations and accessible GitHub/HF links.
+- [x] Compile and visually inspect the revised 4-page IEEE PDF: all four figures included, correct 512-token labels, captions, two results tables and no overfull-box warnings. Author must still inspect the final Overleaf render after any edit.
+- [x] Format source with IEEE `\\documentclass[10pt,conference]{IEEEtran}` (no `compsoc`), reviewed PDF length 4 pages including references, author/affiliation shown, cited work and clickable GitHub/HF links. Final author approval before actual submission remains required.
 - [ ] Confirm that the submitted code/notebook can run the **512-token** evaluation using the public checkpoint; the stored matched Colab notebook is provided, but a one-command inference entrypoint suitable for organizers should be reviewed against their full instructions.
 - [ ] Open the official Google Form and verify any form-specific fields/attachments. Upload the actual finished PDF and required links **only after reviewing the filled form**.
 - [ ] Retain submission confirmation/email/receipt.
 
 **Do not claim a submission has been completed until the official form confirms it.**
+
+## 23 November 2026 manuscript QA
+
+A new Overleaf-ready IEEE project and compiled 4-page PDF were generated in the active conversation. The revised Fig. 3 contains **512-token** E9 confusion matrices; Fig. 4 contains the **matched 512-token** E9 vs baseline F1 comparison. Fig. 1 is the *pilot validation* F1 progression and Fig. 2 is *logged training loss*. The original **256-token** checkpoint comparison remains separately identified as Table I; the matched **512-token** result is Table II. The PDF is still **unsubmitted**; the author must upload the approved final PDF using the tool competition's Google Form and retain its confirmation receipt.
