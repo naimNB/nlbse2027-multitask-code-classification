@@ -1,0 +1,65 @@
+{
+  "status": "local reference-style Colab T4 evaluation; not organizer-hidden-test",
+  "model": "naimNB/nlbse2027-e9-codebert",
+  "dataset": "NLBSE/nlbse27-code-comment-classification",
+  "public_split": "test",
+  "samples": 30655,
+  "gpu": "Tesla T4",
+  "settings": {
+    "max_length": 512,
+    "global_padded_length": 512,
+    "batch_size": 600,
+    "reference_batch_size": 600,
+    "repetitions": 10,
+    "mixed_precision": "fp16 autocast",
+    "thresholds": [
+      0.5,
+      0.5
+    ],
+    "cuda_sync_added": true
+  },
+  "tasks": {
+    "vulnerability": {
+      "precision": 0.9309258870459794,
+      "recall": 0.8822124950258655,
+      "f1": 0.905914802329145,
+      "confusion_matrix": [
+        [
+          19945,
+          658
+        ],
+        [
+          1184,
+          8868
+        ]
+      ]
+    },
+    "technical_debt": {
+      "precision": 0.9828850855745721,
+      "recall": 0.7960396039603961,
+      "f1": 0.8796498905908097,
+      "confusion_matrix": [
+        [
+          30143,
+          7
+        ],
+        [
+          103,
+          402
+        ]
+      ]
+    }
+  },
+  "mean_f1": 0.8927823464599773,
+  "total_elapsed_seconds_for_all_repetitions": 2400.943713138,
+  "avg_runtime_seconds_per_full_public_split": 240.0943713138,
+  "avg_profiler_counted_gflops_per_full_public_split": 2666509.7131617307,
+  "reference_formula_score_local_estimate": 0.7098832194024444,
+  "limitations": [
+    "Public validation, not hidden test",
+    "The organizer reference uses no CUDA synchronization around its timer",
+    "Batch size may fall below 600 after an OOM, affecting runtime and compute comparison",
+    "Profiler-counted GFLOPs are not GFLOPs per second and omit some operations",
+    "Only organizer evaluation determines competition ranking"
+  ]
+}
