@@ -28,7 +28,7 @@ All rows below were evaluated locally at **fixed thresholds (0.5, 0.5)** with 25
 | E8 — Weighted BCE + scheduler, 10,000 steps | 0.8504 | 0.6995 | 0.7750 |
 | **E9-Fresh — Weighted BCE + scheduler, best step 13,000** | **0.8550** | **0.7111** | **0.7830** |
 
-The released baseline still outperforms E9 by about **0.0122 mean-F1 points** on this local comparison. We do not claim a state-of-the-art result.
+The released checkpoint still outperforms E9 by about **0.0122 mean-F1 points** on this **local** comparison. The organizers report a different baseline mean F1 (~0.910) in their task README; the discrepancy is unresolved, so our local baseline figure must not be mistaken for the official published baseline result. We do not claim a state-of-the-art result.
 
 See [results/EXPERIMENTS.md](results/EXPERIMENTS.md) for precision/recall, split-specific diagnostics, and limitations.
 
@@ -63,7 +63,7 @@ This command evaluates with fixed thresholds of 0.5. Do not tune on the public e
 2. Pilot-to-holdout exact-code overlap was observed and filtered for the E3 clean diagnostic.
 3. Training budgets, shuffling, and seeds were not fully controlled across all historical runs.
 4. The public split was consulted during research, so it should not be called an untouched independent test.
-5. Model weights (~500 MB each), training datasets, raw predictions and split pickle files are not included in Git. E9 best weights were uploaded to Hugging Face; basic unauthenticated CUDA loading has passed; full public-split reevaluation is still pending.
+5. Model weights (~500 MB each), training datasets, raw predictions and split pickle files are not included in Git. E9 best weights were uploaded to Hugging Face; basic unauthenticated CUDA loading has passed; unauthenticated public-split evaluation now exactly reproduces archived E9 metrics.
 
 ## References and attribution
 
@@ -81,4 +81,18 @@ The [E9 standalone notebook](notebooks/E9_fresh_15k_codebert.ipynb) and actual r
 
 ![E9 public-split confusion matrices](figures/e9_public_confusion_matrices.svg)
 
-The participant's E9 best-checkpoint model files were **uploaded to Hugging Face**: [naimNB/nlbse2027-e9-codebert](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit [`33031d7072989699bd27a25284b60d81b396b26b`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/33031d7072989699bd27a25284b60d81b396b26b). This upload is verified by the participant's successful CLI commit log; independent download/loading and public visibility are **verified** by loading this model on a fresh Kaggle GPU session without a Hugging Face token. The participant also retains a verified local `E9_BEST_MODEL.zip` backup. A competition-compatible inference wrapper still requires verification before final submission.
+The participant's E9 best-checkpoint model files were **uploaded to Hugging Face**: [naimNB/nlbse2027-e9-codebert](https://huggingface.co/naimNB/nlbse2027-e9-codebert), commit [`33031d7072989699bd27a25284b60d81b396b26b`](https://huggingface.co/naimNB/nlbse2027-e9-codebert/commit/33031d7072989699bd27a25284b60d81b396b26b). This upload is verified by the participant's successful CLI commit log; independent download/loading and public visibility are **verified** by loading this model on a fresh Kaggle GPU session without a Hugging Face token. The participant also retains a verified local `E9_BEST_MODEL.zip` backup. Hosted model public-test replication now matches exactly (vulnerability F1 0.8549545743, SATD F1 0.7110552764, mean 0.7830049253). A competition-compatible inference wrapper still requires verification before final submission.
+
+## Hosted E9 checkpoint replication (22 November 2026)
+
+The participant independently evaluated the public Hugging Face model [`naimNB/nlbse2027-e9-codebert`](https://huggingface.co/naimNB/nlbse2027-e9-codebert) using `scripts/evaluate_public.py` in a new Kaggle GPU notebook **without a Hugging Face access token**. The hosted checkpoint downloaded successfully and produced **bit-for-bit identical reported task metrics and confusion matrices** to the prior local-checkpoint public evaluation on 30,655 examples at max length 256 and thresholds `[0.5, 0.5]`:
+
+| Task | Precision | Recall | F1 | Confusion matrix |
+|---|---:|---:|---:|---|
+| Vulnerability | 0.9113738739 | 0.8051134103 | 0.8549545743 | `[[19816,787],[1959,8093]]` |
+| SATD | 0.9725085911 | 0.5603960396 | 0.7110552764 | `[[30142,8],[222,283]]` |
+| **Mean** | — | — | **0.7830049253** | — |
+
+Original local-checkpoint inference wall time: **441.8847 s**. Hosted-checkpoint inference wall time: **457.1878 s**. These are different sessions and do not establish a controlled speed comparison or official compute ranking. This confirms checkpoint portability and **evaluation replication**, not full training reproducibility, blind generalization or organizer hidden-test performance.
+
+The competition organizer's README also reports a **different baseline evaluation score** (mean F1 approximately 0.910); our earlier locally evaluated baseline checkpoint gave 0.7952. The protocols/processing underlying that discrepancy have not been reconciled, so do not present the locally evaluated baseline score as the organizers' official score.
