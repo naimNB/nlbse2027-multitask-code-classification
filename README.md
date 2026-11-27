@@ -41,7 +41,7 @@ Source-of-truth JSON: [E9 results](results/e9/colab_t4_reference_style_512_metri
 Use Python 3.10+ with a compatible PyTorch installation (CPU works for a single example; a CUDA GPU is recommended for the full dataset).
 
 ```bash
-git clone https://github.com/bynaim/nlbse2027-multitask-code-classification.git
+git clone https://github.com/naimNB/nlbse2027-multitask-code-classification.git
 cd nlbse2027-multitask-code-classification
 
 # Use a virtual environment; install a suitable PyTorch build for your system.
@@ -67,8 +67,8 @@ Each JSONL line can contain `{"Function": "source code"}`; plain JSON strings ar
 
 **Reference-style 512-token validation and resource measurements:** open the already-run Colab notebooks and run them with a **Tesla T4 GPU**:
 
-- [E9-Fresh reference-style evaluation](https://colab.research.google.com/github/bynaim/nlbse2027-multitask-code-classification/blob/main/notebooks/E9_Colab_T4_reference_style_evaluation.ipynb)
-- [Matched released-baseline evaluation](https://colab.research.google.com/github/bynaim/nlbse2027-multitask-code-classification/blob/main/notebooks/BASELINE_Colab_T4_matched_512_evaluation.ipynb)
+- [E9-Fresh reference-style evaluation](https://colab.research.google.com/github/naimNB/nlbse2027-multitask-code-classification/blob/main/notebooks/E9_Colab_T4_reference_style_evaluation.ipynb)
+- [Matched released-baseline evaluation](https://colab.research.google.com/github/naimNB/nlbse2027-multitask-code-classification/blob/main/notebooks/BASELINE_Colab_T4_matched_512_evaluation.ipynb)
 
 Both notebooks produce independently recorded JSON metrics. The computation uses global padding and FP16. The evaluator's `torch.profiler` reports **billions of operations**; this is not FLOPs-per-second throughput.
 
