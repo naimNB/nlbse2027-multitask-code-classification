@@ -7,7 +7,7 @@ authors:
     given-names: Md Naim
     affiliation: "Department of Computer Science and Engineering, Pundra University of Science & Technology, Bangladesh"
     email: naim.cse2004@gmail.com
-repository-code: "https://github.com/naimNB/nlbse2027-multitask-code-classification"
+repository-code: "https://github.com/bynaim/nlbse2027-multitask-code-classification"
 url: "https://huggingface.co/naimNB/nlbse2027-e9-codebert"
 abstract: "Participant-trained CodeBERT multitask classifier for vulnerability and self-admitted technical debt prediction, with reproducible public-validation evaluation records."
 keywords:
