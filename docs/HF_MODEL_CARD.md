@@ -41,13 +41,13 @@ A new independently executed reference-style evaluation of this **same, already-
 | SATD | 0.9828850856 | 0.7960396040 | 0.8796498906 |
 | **Mean F1** | — | — | **0.8927823465** |
 
-Confusion matrices: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Average 10-repeat synchronized inference time: **240.0944 seconds**; average profiler-counted GFLOPs: **2,666,509.7132**; **local reference-formula score 0.7098832194**. This is **not an official hidden-test result or organizer efficiency ranking**. The released baseline has now been reproduced under the same 512-token, batch-600, FP16 Colab T4 protocol: vulnerability F1 **0.9389793269**, SATD F1 **0.8813928183**, mean F1 **0.9101860726**. The local baseline score is **0.7289821579**. E9 trails by **0.0174037 mean-F1 points** and **0.0190989 local formula-score points**; both scores are public-validation estimates, not hidden-test or official rankings. [Matched baseline JSON](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/results/baseline/colab_t4_matched_512_metrics.json). [Full experimental JSON](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/results/e9/colab_t4_reference_style_512_metrics.json).
+Confusion matrices: vulnerability `[[19945,658],[1184,8868]]`; SATD `[[30143,7],[103,402]]`. Average 10-repeat synchronized inference time: **240.0944 seconds**; average profiler-counted GFLOPs: **2,666,509.7132**; **local reference-formula score 0.7098832194**. This is **not an official hidden-test result or organizer efficiency ranking**. The released baseline has now been reproduced under the same 512-token, batch-600, FP16 Colab T4 protocol: vulnerability F1 **0.9389793269**, SATD F1 **0.8813928183**, mean F1 **0.9101860726**. The local baseline score is **0.7289821579**. E9 trails by **0.0174037 mean-F1 points** and **0.0190989 local formula-score points**; both scores are public-validation estimates, not hidden-test or official rankings. [Matched baseline JSON](https://github.com/bynaim/nlbse2027-multitask-code-classification/blob/main/results/baseline/colab_t4_matched_512_metrics.json). [Full experimental JSON](https://github.com/bynaim/nlbse2027-multitask-code-classification/blob/main/results/e9/colab_t4_reference_style_512_metrics.json).
 
 **The 256-token results below are from a different local protocol, not a direct matched baseline comparison.** No retraining occurred between these evaluations. Changes to input length, padding, batch size and precision occurred together, so the cause of the score gap cannot be isolated.
 
 ## Evaluation: public split (30,655 examples)
 
-The historical 256-token evaluation was run with the open [evaluation script](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/scripts/evaluate_public.py), `max_length=256` and both thresholds set to `0.5`.
+The historical 256-token evaluation was run with the open [evaluation script](https://github.com/bynaim/nlbse2027-multitask-code-classification/blob/main/scripts/evaluate_public.py), `max_length=256` and both thresholds set to `0.5`.
 
 | Task | Precision | Recall | F1 |
 |---|---:|---:|---:|
@@ -85,11 +85,11 @@ print("Predictions:", predictions.tolist())
 
 ## Reproducibility
 
-- [Training notebook](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/notebooks/E9_fresh_15k_codebert.ipynb)
-- [Evaluation script](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/scripts/evaluate_public.py)
-- [Run configuration](https://github.com/naimNB/nlbse2027-multitask-code-classification/blob/main/results/e9/run_config.json)
-- [Recorded metrics](https://github.com/naimNB/nlbse2027-multitask-code-classification/tree/main/results/e9)
-- [Research repository](https://github.com/naimNB/nlbse2027-multitask-code-classification)
+- [Training notebook](https://github.com/bynaim/nlbse2027-multitask-code-classification/blob/main/notebooks/E9_fresh_15k_codebert.ipynb)
+- [Evaluation script](https://github.com/bynaim/nlbse2027-multitask-code-classification/blob/main/scripts/evaluate_public.py)
+- [Run configuration](https://github.com/bynaim/nlbse2027-multitask-code-classification/blob/main/results/e9/run_config.json)
+- [Recorded metrics](https://github.com/bynaim/nlbse2027-multitask-code-classification/tree/main/results/e9)
+- [Research repository](https://github.com/bynaim/nlbse2027-multitask-code-classification)
 
 ## Limitations and responsible use
 
